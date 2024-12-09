@@ -12322,6 +12322,7 @@ __metadata:
     "@trezor/ipc-proxy": "workspace:*"
     "@trezor/node-utils": "workspace:*"
     "@trezor/request-manager": "workspace:*"
+    "@trezor/suite": "workspace:*"
     "@trezor/suite-desktop-api": "workspace:*"
     "@trezor/transport-bridge": "workspace:*"
     "@trezor/trezor-user-env-link": "workspace:*"
