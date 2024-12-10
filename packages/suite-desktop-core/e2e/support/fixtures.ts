@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-
 import { test as base, ElectronApplication, Page } from '@playwright/test';
 
 import {
@@ -10,7 +9,7 @@ import {
 } from '@trezor/trezor-user-env-link';
 
 import { DashboardActions } from './pageActions/dashboardActions';
-import { launchSuite } from './common';
+import { getApiUrl, launchSuite } from './common';
 import { SettingsActions } from './pageActions/settingsActions';
 import { SuiteGuide } from './pageActions/suiteGuideActions';
 import { WalletActions } from './pageActions/walletActions';
@@ -18,6 +17,7 @@ import { OnboardingActions } from './pageActions/onboardingActions';
 import { PlaywrightProjects } from '../playwright.config';
 
 type Fixtures = {
+    apiURL: string;
     startEmulator: boolean;
     emulatorStartConf: StartEmu;
     emulatorSetupConf: SetupEmu;
@@ -35,6 +35,9 @@ const test = base.extend<Fixtures>({
     startEmulator: true,
     emulatorStartConf: {},
     emulatorSetupConf: {},
+    apiURL: async ({ baseURL }, use, testInfo) => {
+        await use(getApiUrl(baseURL, testInfo));
+    },
     /* eslint-disable-next-line no-empty-pattern */
     trezorUserEnvLink: async ({}, use) => {
         await use(TrezorUserEnvLink);
@@ -115,4 +118,4 @@ const test = base.extend<Fixtures>({
 });
 
 export { test };
-export { expect } from '@playwright/test';
+export { expect } from './customMatchers';
