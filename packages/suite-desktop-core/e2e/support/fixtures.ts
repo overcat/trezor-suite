@@ -9,18 +9,19 @@ import {
 } from '@trezor/trezor-user-env-link';
 
 import { DashboardActions } from './pageActions/dashboardActions';
-import { getApiUrl, launchSuite } from './common';
+import { getApiUrl, getElectronVideoPath, launchSuite } from './common';
 import { SettingsActions } from './pageActions/settingsActions';
 import { SuiteGuide } from './pageActions/suiteGuideActions';
 import { WalletActions } from './pageActions/walletActions';
 import { OnboardingActions } from './pageActions/onboardingActions';
 import { PlaywrightProjects } from '../playwright.config';
+import { AnalyticsFixture } from './analytics';
 
 type Fixtures = {
-    apiURL: string;
     startEmulator: boolean;
     emulatorStartConf: StartEmu;
     emulatorSetupConf: SetupEmu;
+    apiURL: string;
     trezorUserEnvLink: TrezorUserEnvLinkClass;
     appContext: ElectronApplication | undefined;
     window: Page;
@@ -29,6 +30,7 @@ type Fixtures = {
     suiteGuidePage: SuiteGuide;
     walletPage: WalletActions;
     onboardingPage: OnboardingActions;
+    analytics: AnalyticsFixture;
 };
 
 const test = base.extend<Fixtures>({
@@ -64,7 +66,11 @@ const test = base.extend<Fixtures>({
         }
 
         if (testInfo.project.name === PlaywrightProjects.Desktop) {
-            const suite = await launchSuite({ locale, colorScheme });
+            const suite = await launchSuite({
+                locale,
+                colorScheme,
+                videoFolder: testInfo.outputDir,
+            });
             await use(suite.electronApp);
             await suite.electronApp.close(); // Ensure cleanup after tests
         } else {
@@ -82,6 +88,16 @@ const test = base.extend<Fixtures>({
             await use(window);
             const tracePath = `${testInfo.outputDir}/trace.electron.zip`;
             await window.context().tracing.stop({ path: tracePath });
+            testInfo.attachments.push({
+                name: 'trace',
+                path: tracePath,
+                contentType: 'application/zip',
+            });
+            testInfo.attachments.push({
+                name: 'video',
+                path: getElectronVideoPath(testInfo.outputDir),
+                contentType: 'video/webm',
+            });
         } else {
             await page.context().addInitScript(() => {
                 // Tells the app to attach Redux Store to window object. packages/suite-web/src/support/useCypress.ts
@@ -114,6 +130,10 @@ const test = base.extend<Fixtures>({
             testInfo,
         );
         await use(onboardingPage);
+    },
+    analytics: async ({ window }, use) => {
+        const analytics = new AnalyticsFixture(window);
+        await use(analytics);
     },
 });
 

@@ -1,8 +1,23 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, test } from '@playwright/test';
 
 import { BackendType, NetworkSymbol } from '@suite-common/wallet-config';
+import { capitalizeFirstLetter } from '@trezor/utils';
 
 import { expect } from '../customMatchers';
+
+export enum Theme {
+    System = 'system',
+    Dark = 'dark',
+    Light = 'light',
+}
+
+export enum Language {
+    Spanish = 'es',
+}
+
+const languageMap = {
+    es: 'Español',
+};
 
 export class SettingsActions {
     private readonly window: Page;
@@ -29,6 +44,12 @@ export class SettingsActions {
         this.window.getByTestId(`@settings/advance/${backend}`);
     readonly coinAddressInput: Locator;
     readonly coinAdvanceSettingSaveButton: Locator;
+    readonly themeInput: Locator;
+    readonly themeInputOption = (theme: Theme) =>
+        this.window.getByTestId(`@theme/color-scheme-select/option/${theme}`);
+    readonly languageInput: Locator;
+    readonly languageInputOption = (language: Language) =>
+        this.window.getByTestId(`@settings/language-select/option/${language}`);
 
     constructor(window: Page) {
         this.window = window;
@@ -54,6 +75,8 @@ export class SettingsActions {
         this.coinAdvanceSettingSaveButton = this.window.getByTestId(
             '@settings/advance/button/save',
         );
+        this.themeInput = this.window.getByTestId('@theme/color-scheme-select/input');
+        this.languageInput = this.window.getByTestId('@settings/language-select/input');
     }
 
     async navigateTo() {
@@ -108,5 +131,32 @@ export class SettingsActions {
     async closeSettings() {
         await this.settingsCloseButton.click();
         await this.settingsHeader.waitFor({ state: 'detached' });
+    }
+
+    async changeTheme(theme: Theme) {
+        await this.selectDropdownOptionWithRetry(this.themeInput, this.themeInputOption(theme));
+        await expect(this.themeInput).toHaveText(capitalizeFirstLetter(theme));
+    }
+
+    async changeLanguage(language: Language) {
+        await this.selectDropdownOptionWithRetry(
+            this.languageInput,
+            this.languageInputOption(language),
+        );
+        await expect(this.languageInput).toHaveText(languageMap[language]);
+    }
+
+    //Retry mechanism for settings dropdowns which tend to be flaky in automation
+    async selectDropdownOptionWithRetry(dropdown: Locator, option: Locator) {
+        await test.step('Select dropdown option with RETRY', async () => {
+            await dropdown.scrollIntoViewIfNeeded();
+            await expect(async () => {
+                if (!(await option.isVisible())) {
+                    await dropdown.click({ timeout: 2000 });
+                }
+                await expect(option).toBeVisible({ timeout: 2000 });
+                await option.click({ timeout: 2000 });
+            }).toPass({ timeout: 10_000 });
+        });
     }
 }
