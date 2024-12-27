@@ -5039,6 +5039,15 @@ export default defineMessages({
         defaultMessage:
             'Connect to an external Tor daemon running on port 9050, rather than using the one bundled with Trezor Suite.',
     },
+    TR_EXPERIMENTAL_TOR_EXTERNAL_PORT: {
+        id: 'TR_EXPERIMENTAL_TOR_EXTERNAL_PORT',
+        defaultMessage: 'Tor external port',
+    },
+    TR_EXPERIMENTAL_TOR_EXTERNAL_PORT_DESCRIPTION: {
+        id: 'TR_EXPERIMENTAL_TOR_EXTERNAL_PORT_DESCRIPTION',
+        defaultMessage:
+            'Allows you to use Tor daemon running in a external process instead of the one bundled with Trezor Suite.',
+    },
     TR_EARLY_ACCESS: {
         id: 'TR_EARLY_ACCESS',
         defaultMessage: 'Early Access Program',
