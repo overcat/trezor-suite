@@ -3,12 +3,10 @@ import { Locator, Page, TestInfo, expect } from '@playwright/test';
 import { Model, TrezorUserEnvLink } from '@trezor/trezor-user-env-link';
 import { SUITE as SuiteActions } from '@trezor/suite/src/actions/suite/constants';
 
-import { PlaywrightProjects } from '../../playwright.config';
 import { AnalyticsActions } from './analyticsActions';
+import { isWebProject } from '../common';
 
 export class OnboardingActions {
-    readonly model: Model;
-    readonly testInfo: TestInfo;
     readonly welcomeTitle: Locator;
     readonly onboardingContinueButton: Locator;
     readonly onboardingViewOnlySkipButton: Locator;
@@ -34,11 +32,9 @@ export class OnboardingActions {
     constructor(
         public page: Page,
         private analyticsPage: AnalyticsActions,
-        model: Model,
-        testInfo: TestInfo,
+        private readonly model: Model,
+        private readonly testInfo: TestInfo,
     ) {
-        this.model = model;
-        this.testInfo = testInfo;
         this.welcomeTitle = this.page.getByTestId('@welcome/title');
         this.onboardingContinueButton = this.page.getByTestId('@onboarding/exit-app-button');
         this.onboardingViewOnlySkipButton = this.page.getByTestId('@onboarding/viewOnly/skip');
@@ -90,7 +86,7 @@ export class OnboardingActions {
 
     async disableFirmwareHashCheck() {
         // Desktop starts with already disabled firmware hash check. Web needs to disable it.
-        if (this.testInfo.project.name !== PlaywrightProjects.Web) {
+        if (!isWebProject(this.testInfo)) {
             return;
         }
 

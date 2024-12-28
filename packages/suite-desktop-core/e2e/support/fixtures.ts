@@ -9,12 +9,11 @@ import {
 } from '@trezor/trezor-user-env-link';
 
 import { DashboardActions } from './pageActions/dashboardActions';
-import { getApiUrl, getElectronVideoPath, launchSuite } from './common';
+import { getApiUrl, getElectronVideoPath, isDesktopProject, launchSuite } from './common';
 import { SettingsActions } from './pageActions/settingsActions';
 import { SuiteGuide } from './pageActions/suiteGuideActions';
 import { WalletActions } from './pageActions/walletActions';
 import { OnboardingActions } from './pageActions/onboardingActions';
-import { PlaywrightProjects } from '../playwright.config';
 import { AnalyticsFixture } from './analytics';
 import { BackupActions } from './pageActions/backupActions';
 import { DevicePromptActions } from './pageActions/devicePromptActions';
@@ -22,6 +21,7 @@ import { AnalyticsActions } from './pageActions/analyticsActions';
 import { IndexedDbFixture } from './indexedDb';
 import { RecoverActions } from './pageActions/recoverActions';
 import { WordInputActions } from './pageActions/wordInputActions';
+import { MarketActions } from './pageActions/marketActions';
 
 type Fixtures = {
     startEmulator: boolean;
@@ -44,6 +44,7 @@ type Fixtures = {
     wordInputPage: WordInputActions;
     analytics: AnalyticsFixture;
     indexedDb: IndexedDbFixture;
+    marketPage: MarketActions;
 };
 
 const test = base.extend<Fixtures>({
@@ -83,7 +84,7 @@ const test = base.extend<Fixtures>({
             await trezorUserEnvLink.setupEmu(emulatorSetupConf);
         }
 
-        if (testInfo.project.name === PlaywrightProjects.Desktop) {
+        if (isDesktopProject(testInfo)) {
             const suite = await launchSuite({
                 locale,
                 colorScheme,
@@ -176,6 +177,10 @@ const test = base.extend<Fixtures>({
     indexedDb: async ({ page }, use) => {
         const indexedDb = new IndexedDbFixture(page);
         await use(indexedDb);
+    },
+    marketPage: async ({ page }, use) => {
+        const marketPage = new MarketActions(page);
+        await use(marketPage);
     },
 });
 
