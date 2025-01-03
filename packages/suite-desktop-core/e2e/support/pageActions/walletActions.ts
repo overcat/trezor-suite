@@ -14,6 +14,8 @@ export class WalletActions {
     readonly coinMarketBuyButton: Locator;
     readonly coinExchangeButton: Locator;
     readonly coinMarketDropdownBuyButton: Locator;
+    readonly balanceOfNetwork = (symbol: NetworkSymbol) =>
+        this.page.getByTestId(`@wallet/coin-balance/value-${symbol}`);
 
     constructor(private readonly page: Page) {
         this.searchInput = this.page.getByTestId('@wallet/accounts/search-icon');
