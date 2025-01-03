@@ -1,11 +1,9 @@
 import { SeedType } from '../../../support/enums/seedType';
-import { test, expect } from '../../../support/fixtures';
+import { test } from '../../../support/fixtures';
 
 test.describe('Onboarding - create wallet', { tag: ['@group=device-management'] }, () => {
-    // This test always needs to run the newest possible emulator version
-    // Emulator setup: wipe: true, model: T2T1, version: 2-latest
     test.use({
-        emulatorStartConf: { wipe: true, model: 'T2T1', version: '2-latest' },
+        emulatorStartConf: { wipe: true, model: 'T3T1', version: '2-latest' },
         setupEmulator: false,
     });
 
@@ -15,33 +13,48 @@ test.describe('Onboarding - create wallet', { tag: ['@group=device-management'] 
 
     test('Success (Shamir backup)', async ({
         page,
-        analyticsPage,
         onboardingPage,
         devicePrompt,
+        analyticsPage,
         trezorUserEnvLink,
     }) => {
         await analyticsPage.passThroughAnalytics();
-        await onboardingPage.firmware.continueButton.click();
 
-        // Will be clicking on Shamir backup button
+        // Device onboarding steps
+        await onboardingPage.firmware.skip();
+        await onboardingPage.passThroughAuthenticityCheck();
+        await page.waitForTimeout(500);
+        await onboardingPage.tutorial.skip();
+
+        // Create wallet with Shamir backup
         await onboardingPage.createWalletButton.click();
         await onboardingPage.selectSeedType(SeedType.Advanced);
+
+        // Accept ToS
         await devicePrompt.confirmOnDevicePromptIsShown();
         await trezorUserEnvLink.pressYes();
 
-        await page.getByTestId('@onboarding/create-backup-button').click();
+        // Confirm wallet created
+        await devicePrompt.confirmOnDevicePromptIsShown();
+        await trezorUserEnvLink.pressYes();
 
+        onboardingPage.createBackupButton.click();
+
+        // Create backup with Shamir shares and threshold
         const shares = 3;
         const threshold = 2;
         await onboardingPage.backup.passThroughShamirBackup(shares, threshold);
-        await page.getByTestId('@onboarding/set-pin-button').click();
-        await devicePrompt.confirmOnDevicePromptIsShown();
 
+        // Set PIN
+        await onboardingPage.pin.setPinButton.click();
+        await devicePrompt.confirmOnDevicePromptIsShown();
         await trezorUserEnvLink.pressYes();
         await trezorUserEnvLink.inputEmu('12');
         await trezorUserEnvLink.inputEmu('12');
-        await expect(page.getByTestId('@prompts/confirm-on-device')).toBeVisible();
+
+        await devicePrompt.confirmOnDevicePromptIsShown();
         await trezorUserEnvLink.pressYes();
-        await expect(page.getByTestId('@onboarding/pin/continue-button')).toBeVisible();
+
+        await onboardingPage.pin.continueButton.click();
     });
 });

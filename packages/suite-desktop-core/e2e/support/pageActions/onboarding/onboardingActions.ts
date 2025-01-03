@@ -3,10 +3,21 @@ import { Locator, Page, TestInfo, expect } from '@playwright/test';
 import { Model, TrezorUserEnvLink } from '@trezor/trezor-user-env-link';
 import { SUITE as SuiteActions } from '@trezor/suite/src/actions/suite/constants';
 
-import { AnalyticsActions } from './analyticsActions';
-import { isWebProject, step } from '../common';
+import { AnalyticsActions } from '../analyticsActions';
+import { isWebProject, step } from '../../common';
+import { DevicePromptActions } from '../devicePromptActions';
+import { SeedType } from '../../enums/seedType';
+import { BackupActions } from './backupActions';
+import { FirmwareActions } from './firmwareActions';
+import { PinActions } from './pinActions';
+import { TutorialActions } from './tutorialActions';
 
 export class OnboardingActions {
+    readonly backup: BackupActions;
+    readonly firmware: FirmwareActions;
+    readonly pin: PinActions;
+    readonly tutorial: TutorialActions;
+
     readonly welcomeTitle: Locator;
     readonly onboardingContinueButton: Locator;
     readonly onboardingViewOnlySkipButton: Locator;
@@ -20,21 +31,26 @@ export class OnboardingActions {
     readonly startRecoveryButton: Locator;
     readonly continueRecoveryButton: Locator;
     readonly retryRecoveryButton: Locator;
-    readonly firmwareContinueButton: Locator;
-    readonly skipFirmwareButton: Locator;
-    readonly skipConfirmButton: Locator;
-    readonly skipPinButton: Locator;
     readonly continueCoinsButton: Locator;
     readonly finalTitle: Locator;
+    readonly createWalletButton: Locator;
+    readonly selectSeedTypeOpenButton: Locator;
+    readonly selectSeedConfirmButton: Locator;
 
     isModelWithSecureElement = () => ['T2B1', 'T3T1'].includes(this.model);
 
     constructor(
         public page: Page,
         private analyticsPage: AnalyticsActions,
+        private readonly devicePrompt: DevicePromptActions,
         private readonly model: Model,
         private readonly testInfo: TestInfo,
     ) {
+        this.backup = new BackupActions(page, devicePrompt);
+        this.firmware = new FirmwareActions(page);
+        this.tutorial = new TutorialActions(page);
+        this.pin = new PinActions(page);
+
         this.welcomeTitle = this.page.getByTestId('@welcome/title');
         this.onboardingContinueButton = this.page.getByTestId('@onboarding/exit-app-button');
         this.onboardingViewOnlySkipButton = this.page.getByTestId('@onboarding/viewOnly/skip');
@@ -50,12 +66,17 @@ export class OnboardingActions {
         this.startRecoveryButton = this.page.getByTestId('@onboarding/recovery/start-button');
         this.continueRecoveryButton = this.page.getByTestId('@onboarding/recovery/continue-button');
         this.retryRecoveryButton = this.page.getByTestId('@onboarding/recovery/retry-button');
-        this.firmwareContinueButton = this.page.getByTestId('@firmware/continue-button');
-        this.skipFirmwareButton = this.page.getByTestId('@firmware/skip-button');
-        this.skipPinButton = this.page.getByTestId('@onboarding/skip-button');
-        this.skipConfirmButton = this.page.getByTestId('@onboarding/skip-button-confirm');
+
         this.continueCoinsButton = this.page.getByTestId('@onboarding/coins/continue-button');
         this.finalTitle = this.page.getByTestId('@onboarding/final');
+
+        this.createWalletButton = this.page.getByTestId('@onboarding/path-create-button');
+        this.selectSeedTypeOpenButton = this.page.getByTestId(
+            '@onboarding/select-seed-type-open-dialog',
+        );
+        this.selectSeedConfirmButton = this.page.getByTestId(
+            '@onboarding/select-seed-type-confirm',
+        );
     }
 
     @step()
@@ -74,9 +95,7 @@ export class OnboardingActions {
         await this.analyticsPage.continueButton.click();
         await this.onboardingContinueButton.click();
         if (this.isModelWithSecureElement()) {
-            await this.authenticityStartButton.click();
-            await TrezorUserEnvLink.pressYes();
-            await this.authenticityContinueButton.click();
+            await this.passThroughAuthenticityCheck();
         }
         if (enableViewOnly) {
             await this.onboardingViewOnlyEnableButton.click();
@@ -108,14 +127,17 @@ export class OnboardingActions {
     }
 
     @step()
-    async skipFirmware() {
-        await this.skipFirmwareButton.click();
-        await this.skipConfirmButton.click();
+    async passThroughAuthenticityCheck() {
+        await this.authenticityStartButton.click();
+        await this.devicePrompt.confirmOnDevicePromptIsShown();
+        await TrezorUserEnvLink.pressYes();
+        await this.authenticityContinueButton.click();
     }
 
     @step()
-    async skipPin() {
-        await this.skipPinButton.click();
-        await this.skipConfirmButton.click();
+    async selectSeedType(seedType: SeedType) {
+        await this.selectSeedTypeOpenButton.click();
+        await this.page.getByTestId(`@onboarding/select-seed-type-${seedType}`).click();
+        await this.selectSeedConfirmButton.click();
     }
 }
