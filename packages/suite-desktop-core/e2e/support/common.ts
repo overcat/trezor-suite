@@ -134,6 +134,7 @@ export const getElectronVideoPath = (videoFolder: string) => {
     return path.join(videoFolder, videoFilenames[0]);
 };
 
+// Wraps whole page object methods with test.step
 export function step(stepName?: string) {
     /* eslint-disable @typescript-eslint/no-unsafe-function-type */
     return function decorator(target: Function, context: ClassMethodDecoratorContext) {
@@ -147,3 +148,21 @@ export function step(stepName?: string) {
     };
     /* eslint-enable @typescript-eslint/no-unsafe-function-type */
 }
+
+// Wraps any TrezorUserEnvLink call with test.step
+const TrezorUserEnvLinkProxy = new Proxy(TrezorUserEnvLink, {
+    get(target: any, propKey) {
+        const origMethod = target[propKey];
+
+        return function (...args: any[]) {
+            const params = JSON.stringify(args).slice(1, -1);
+            const methodName = String(propKey);
+
+            return test.step(`TrezorLink.${methodName}(${params})`, () => {
+                return origMethod.apply(target, args);
+            });
+        };
+    },
+});
+
+export { TrezorUserEnvLinkProxy };
