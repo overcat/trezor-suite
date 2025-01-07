@@ -4,8 +4,7 @@ test.describe('Safety Checks Settings', { tag: ['@group=settings'] }, () => {
     test.use({ emulatorStartConf: { wipe: true } });
     test.beforeEach(async ({ onboardingPage, settingsPage }) => {
         await onboardingPage.completeOnboarding();
-        await settingsPage.navigateTo();
-        await settingsPage.deviceTabButton.click();
+        await settingsPage.navigateTo('device');
     });
 
     test('There is button in device settings, that opens safety checks modal.', async ({
@@ -49,6 +48,7 @@ test.describe('Safety Checks Settings', { tag: ['@group=settings'] }, () => {
 
     test('Device safety_check setting is changed after pressing the apply button', async ({
         page,
+        devicePrompt,
         trezorUserEnvLink,
     }) => {
         await page.getByTestId('@settings/device/safety-checks-button').click();
@@ -63,7 +63,7 @@ test.describe('Safety Checks Settings', { tag: ['@group=settings'] }, () => {
         }
         // Changing safety_checks to targetValue
         await page.getByTestId('@safety-checks-apply').click();
-        await expect(page.getByTestId('@prompts/confirm-on-device')).toBeVisible();
+        await devicePrompt.confirmOnDevicePromptIsShown();
         await trezorUserEnvLink.pressYes();
 
         await page.getByTestId('@settings/device/safety-checks-button').click();
