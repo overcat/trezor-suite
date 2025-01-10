@@ -3,6 +3,7 @@ import { Locator, Page, expect } from '@playwright/test';
 import { TrezorUserEnvLink } from '@trezor/trezor-user-env-link';
 import { FiatCurrencyCode } from '@suite-common/suite-config';
 import regional from '@trezor/suite/src/constants/wallet/coinmarket/regional';
+import { NetworkSymbol } from '@suite-common/wallet-config';
 
 import { step } from '../common';
 
@@ -15,21 +16,44 @@ const getCountryLabel = (country: string) => {
     return labelWithFlag.substring(labelWithFlag.indexOf(' ') + 1);
 };
 
+type paymentMethods =
+    | 'googlePay'
+    | 'applePay'
+    | 'creditCard'
+    | 'paypal'
+    | 'bankTransfer'
+    | 'revolutPay';
+
 export class MarketActions {
     readonly offerSpinner: Locator;
     readonly section: Locator;
     readonly form: Locator;
     readonly bestOfferProvider: Locator;
-    readonly bestOfferYouGet: Locator;
+    readonly bestOfferSection: Locator;
     readonly bestOfferAmount: Locator;
     readonly buyBestOfferButton: Locator;
     readonly youPayInput: Locator;
     readonly youPayCurrencyDropdown: Locator;
     readonly youPayCurrencyOption = (currency: FiatCurrencyCode) =>
         this.page.getByTestId(`@coinmarket/form/fiat-currency-select/option/${currency}`);
+    readonly youPayFiatCryptoSwitchButton: Locator;
+    readonly youPayFractionButton = (amount: '10%' | '25%' | '50%' | 'Max') =>
+        this.page.getByRole('button', { name: amount });
+    readonly feeButton = (fee: 'economy' | 'normal' | 'high' | 'custom') =>
+        this.page.getByTestId(`select-bar/${fee}`);
+    readonly customFeeInput: Locator;
     readonly countryOfResidenceDropdown: Locator;
     readonly countryOfResidenceOption = (countryCode: string) =>
         this.page.getByTestId(`@coinmarket/form/country-select/option/${countryCode}`);
+    readonly accountDropdown: Locator;
+    readonly accountSearchInput: Locator;
+    readonly accountTabFilter = (tab: 'all-networks' | 'eth' | 'pol' | 'bsc' | 'sol') =>
+        this.page.getByTestId(`@coinmarket/form/select-crypto/network-tab/${tab}`);
+    readonly accountOption = (cryptoName: string, symbol: NetworkSymbol) =>
+        this.page.getByTestId(`@coinmarket/form/select-crypto/option/${cryptoName}-${symbol}`);
+    readonly paymentMethodDropdown: Locator;
+    readonly paymentMethodOption = (method: paymentMethods) =>
+        this.page.getByTestId(`@coinmarket/form/payment-method-select/option/${method}`);
     readonly buyOffersPage: Locator;
     readonly compareButton: Locator;
     readonly quotes: Locator;
@@ -37,6 +61,7 @@ export class MarketActions {
         this.page.getByTestId(`@coinmarket/offers/quote-${provider}`);
     readonly quoteProvider: Locator;
     readonly quoteAmount: Locator;
+    readonly refreshTime: Locator;
     readonly selectThisQuoteButton: Locator;
     readonly modal: Locator;
     readonly buyTermsConfirmButton: Locator;
@@ -53,21 +78,33 @@ export class MarketActions {
         this.section = this.page.getByTestId('@coinmarket');
         this.form = this.page.getByTestId('@coinmarket/form');
         this.bestOfferProvider = this.page.getByTestId('@coinmarket/offers/quote/provider');
-        this.bestOfferYouGet = this.page.getByTestId('@coinmarket/best-offer/amount');
-        this.bestOfferAmount = this.page.getByTestId('@coinmarket/form/offer/crypto-amount');
+        this.bestOfferSection = this.page.getByTestId('@coinmarket/best-offer');
+        this.bestOfferAmount = this.page.getByTestId('@coinmarket/best-offer/amount');
         this.buyBestOfferButton = this.page.getByTestId('@coinmarket/form/buy-button');
         this.youPayInput = this.page.getByTestId('@coinmarket/form/fiat-input');
         this.youPayCurrencyDropdown = this.page.getByTestId(
             '@coinmarket/form/fiat-currency-select/input',
         );
+        this.youPayFiatCryptoSwitchButton = this.page.getByTestId(
+            '@coinmarket/form/switch-crypto-fiat',
+        );
+        this.customFeeInput = this.page.getByTestId('feePerUnit');
         this.countryOfResidenceDropdown = this.page.getByTestId(
             '@coinmarket/form/country-select/input',
+        );
+        this.accountDropdown = this.page.getByTestId('@coinmarket/form/select-crypto/input');
+        this.accountSearchInput = this.page.getByTestId(
+            '@coinmarket/form/select-crypto/search-input',
+        );
+        this.paymentMethodDropdown = this.page.getByTestId(
+            '@coinmarket/form/payment-method-select/input',
         );
         this.buyOffersPage = this.page.getByTestId('@coinmarket/buy-offers');
         this.compareButton = this.page.getByTestId('@coinmarket/form/compare-button');
         this.quotes = this.page.getByTestId('@coinmarket/offers/quote');
         this.quoteProvider = this.page.getByTestId('@coinmarket/offers/quote/provider');
         this.quoteAmount = this.page.getByTestId('@coinmarket/offers/quote/crypto-amount');
+        this.refreshTime = this.page.getByTestId('@coinmarket/refresh-time');
         this.selectThisQuoteButton = this.page.getByTestId(
             '@coinmarket/offers/get-this-deal-button',
         );
@@ -118,6 +155,19 @@ export class MarketActions {
         }
         await this.youPayCurrencyDropdown.click();
         await this.youPayCurrencyOption(currencyCode).click();
+    }
+
+    @step()
+    async selectAccount(cryptoName: string, symbol: NetworkSymbol) {
+        await this.accountDropdown.click();
+        await this.accountSearchInput.fill(cryptoName);
+        await this.accountOption(cryptoName, symbol).click();
+    }
+
+    @step()
+    async selectPaymentMethod(method: paymentMethods) {
+        await this.paymentMethodDropdown.click();
+        await this.paymentMethodOption(method).click();
     }
 
     @step()
