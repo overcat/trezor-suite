@@ -1,7 +1,7 @@
 {
   "AMOUNT": "Beløp",
   "AMOUNT_IS_BELOW_DUST": "Beløpet er under støvgrensen ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Mottakerkonto krever minimum {reserve} XRP i reserve for å aktivere",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Mottakerkonto krever minimum {reserve} {symbol} i reserve for å aktivere",
   "AMOUNT_IS_NOT_ENOUGH": "Ikke nok midler",
   "AMOUNT_IS_NOT_INTEGER": "Beløpet er ikke et heltall",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maksimalt {decimals} desimaler tillatt",

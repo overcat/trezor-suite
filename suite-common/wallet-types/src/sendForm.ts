@@ -8,7 +8,8 @@ export type FormOptions =
     | 'bitcoinLockTime'
     | 'ethereumData'
     | 'ethereumNonce' // TODO
-    | 'rippleDestinationTag';
+    | 'rippleDestinationTag'
+    | 'stellarMemo';
 
 export type UtxoSorting = 'newestFirst' | 'oldestFirst' | 'smallestFirst' | 'largestFirst';
 
@@ -39,6 +40,8 @@ export interface FormState {
     ethereumDataHex?: string;
     ethereumAdjustGasLimit?: string; // if used, final gas limit = estimated limit * ethereumAdjustGasLimit
     rippleDestinationTag?: string;
+    stellarMemo?: string; // Currently, we only need to support Text Memo, which I believe is sufficient to meet the needs of the vast majority of users.
+    // stellarDestinationActivated?: boolean;
     rbfParams?: RbfTransactionParams;
     isCoinControlEnabled: boolean;
     hasCoinControlBeenOpened: boolean;

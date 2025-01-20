@@ -157,7 +157,7 @@ export type PrecomposedTransactionCardano =
     | PrecomposedTransactionCardanoError
     | PrecomposedTransactionCardanoNonFinal
     | PrecomposedTransactionCardanoFinal;
-
+// TODO(Stellar): fix me
 export type GeneralPrecomposedTransaction = PrecomposedTransaction | PrecomposedTransactionCardano;
 
 export type GeneralPrecomposedTransactionFinal = Extract<
@@ -289,6 +289,8 @@ export type ReviewOutput =
               | 'locktime'
               | 'fee'
               | 'destination-tag'
+              | 'memo'
+              | 'timebounds'
               | 'txid'
               | 'address'
               | 'amount'

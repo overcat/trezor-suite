@@ -1,7 +1,7 @@
 {
   "AMOUNT": "Bedrag",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Recipient account requires minimum reserve {reserve} XRP to activate\nOntvanger vereis minstens {reserve} XRP reserwe om te aktiveer",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Bedrag is meer as die vereiste on-spandeerbare reserwe  ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Recipient account requires minimum reserve {reserve} {symbol} to activate\nOntvanger vereis minstens {reserve} {symbol} reserwe om te aktiveer",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Bedrag is meer as die vereiste on-spandeerbare reserwe  ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Onvoldoende fondse",
   "AMOUNT_IS_NOT_INTEGER": "Bedrag is nie 'n heelgetal nie",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Hoogstens {decimals} desimale word aanvaar",

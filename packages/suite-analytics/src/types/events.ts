@@ -498,7 +498,8 @@ export type SuiteAnalyticsEvent =
                   | 'blockfrost'
                   | 'coinjoin'
                   | 'default'
-                  | 'solana';
+                  | 'solana'
+                  | 'stellar';
               totalRegular: number;
               totalOnion: number;
           };

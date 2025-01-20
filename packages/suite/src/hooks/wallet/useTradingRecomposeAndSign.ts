@@ -16,6 +16,7 @@ interface TradingRecomposeAndSignProps {
     address: string;
     amount: string;
     destinationTag?: string;
+    stellarMemo?: string;
     ethereumDataHex?: string;
     recalcCustomLimit?: boolean;
     ethereumAdjustGasLimit?: string;
@@ -37,6 +38,7 @@ export const useTradingRecomposeAndSign = () => {
             address,
             amount,
             destinationTag,
+            stellarMemo,
             ethereumDataHex,
             recalcCustomLimit,
             ethereumAdjustGasLimit,
@@ -76,6 +78,7 @@ export const useTradingRecomposeAndSign = () => {
                 estimatedFeeLimit: composed.estimatedFeeLimit,
                 options,
                 rippleDestinationTag: destinationTag,
+                stellarMemo,
                 ethereumDataHex,
                 ethereumAdjustGasLimit,
                 selectedUtxos: [],

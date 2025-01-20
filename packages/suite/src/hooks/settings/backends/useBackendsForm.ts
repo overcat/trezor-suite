@@ -30,6 +30,8 @@ const validateUrl = (type: BackendOption, value: string) => {
             return isUrl(value);
         case 'ripple':
             return isUrl(value);
+        case 'stellar':
+            return isUrl(value);
         default:
             return false;
     }

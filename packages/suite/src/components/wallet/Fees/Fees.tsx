@@ -188,6 +188,7 @@ export const Fees = <TFieldValues extends FormState>({
             <Row flexWrap="wrap" justifyContent="space-between" gap={spacings.sm}>
                 <Tooltip
                     addon={
+                        // TODO(stellar): add stellar?
                         networkType === 'ethereum' && (
                             <Link href={HELP_CENTER_TRANSACTION_FEES_URL} target="_blank">
                                 <Icon size={12} color={theme.iconAlertYellow} name="lightbulb" />

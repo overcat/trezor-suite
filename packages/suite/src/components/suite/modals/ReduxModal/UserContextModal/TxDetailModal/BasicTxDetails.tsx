@@ -141,11 +141,21 @@ export const BasicTxDetails = ({
                 {/* TX ID */}
                 <Item label={<Translation id="TR_TXID" />} iconName="fingerprint">
                     <IOAddress
-                        txAddress={tx.txid}
+                        txAddress={tx.symbol === 'xlm' ? tx.txid.split('#')[0] : tx.txid}
                         explorerUrl={explorerUrl}
                         explorerUrlQueryString={explorerUrlQueryString}
                     />
                 </Item>
+
+                {/* Stellar */}
+                {tx.stellarSpecific &&
+                    (
+                        <>
+                            <Item label={<Translation id="TR_OPERATION_ID" />} iconName="receipt">
+                                {tx.stellarSpecific.operationId}
+                            </Item>
+                        </>
+                    )}
 
                 {/* Fee level */}
                 {network.networkType === 'bitcoin' && (

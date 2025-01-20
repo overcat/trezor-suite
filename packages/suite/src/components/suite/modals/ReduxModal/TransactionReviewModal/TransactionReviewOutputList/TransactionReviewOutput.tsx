@@ -24,6 +24,8 @@ const getFeeLabel = (networkType: NetworkType) => {
             return 'MAX_FEE';
         case 'solana':
             return 'EXPECTED_FEE';
+        case 'stellar':
+            return 'MAX_FEE';
         default:
             return 'FEE';
     }
@@ -216,6 +218,29 @@ const getOutputLines = (
                     label: <Translation id="AMOUNT" />,
                     value,
                     type: 'amount',
+                    id: 'opreturn',
+                    label: <Translation id="OP_RETURN" />,
+                    value: outputValue,
+                    plainValue: true,
+                },
+            ];
+            // TODO(stellar): fix me
+        } else if (type === 'timebounds') {
+            outputLines = [
+                {
+                    id: 'timebounds',
+                    label: <Translation id="TIME_BOUNDS" />,
+                    value: outputValue,
+                    plainValue: true,
+                },
+            ];
+        } else if (type === 'memo') {
+            outputLines = [
+                {
+                    id: 'memo',
+                    label: <Translation id="MEMO_TEXT" />,
+                    value: outputValue,
+                    plainValue: true,
                 },
             ];
         default: {

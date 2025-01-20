@@ -50,6 +50,7 @@ export const DEFAULT_VALUES = {
     ethereumDataAscii: '',
     ethereumDataHex: '',
     rippleDestinationTag: '',
+    stellarMemo: '',
     outputs: [],
     isCoinControlEnabled: false,
     hasCoinControlBeenOpened: false,

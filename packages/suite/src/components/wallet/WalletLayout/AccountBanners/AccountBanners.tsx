@@ -20,6 +20,7 @@ import { StakingBanner } from './StakingBanner';
 import { TaprootBanner } from './TaprootBanner';
 import { TorDisconnected } from './TorDisconnected';
 import { XRPReserve } from './XRPReserve';
+import { StellarReserveBanner } from './StellarReserveBanner';
 
 type AccountBannersProps = {
     account?: Account;
@@ -42,6 +43,7 @@ export const AccountBanners = ({ account }: AccountBannersProps) => {
             <DeviceUnavailable />
             <TorDisconnected />
             <XRPReserve account={account} />
+            <StellarReserveBanner account={account} />
             <AccountImported account={account} />
             <AccountOutOfSync account={account} />
             <EvmExplanationBanner account={account} />

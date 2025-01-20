@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Сума",
   "AMOUNT_IS_BELOW_DUST": "Сума є нижче ліміту пилу ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Рахунок одержувача вимагає мінімум {reserve} XRP для активації",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Сума перевищує необхідний невичерпний резерв ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Рахунок одержувача вимагає мінімум {reserve} {symbol} для активації",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Сума перевищує необхідний невичерпний резерв ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Недостатньо коштів",
   "AMOUNT_IS_NOT_INTEGER": "Сума не є цілим числом",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Дозволено не більше {decimals} десяткових знаків",

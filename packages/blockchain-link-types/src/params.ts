@@ -56,5 +56,6 @@ export interface AccountInfoParams {
         ledger: number;
         seq: number;
     };
+    stellarCursor?: string; // stellar only, cursor for pagination
     tokenAccountsPubKeys?: string[]; // solana only, token accounts to fetch txids for
 }

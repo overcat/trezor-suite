@@ -37,6 +37,7 @@ const networkTypeToDisplayedParametersMap: Record<NetworkType, TransactionParame
     ripple: ['broadcast'],
     cardano: [],
     solana: [],
+    stellar: []
 };
 
 const getEnabledTitle = (enabled: boolean) => (enabled ? 'Enabled' : 'Disabled');

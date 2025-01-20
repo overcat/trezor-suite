@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Sumă",
   "AMOUNT_IS_BELOW_DUST": "Suma este sub limita de pulbere ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Contul destinatarului necesită rezerva minimă de {reserve} XRP pentru activare",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Suma este mai mare decât rezerva necheltuibilă necesară ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Contul destinatarului necesită rezerva minimă de {reserve} {symbol} pentru activare",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Suma este mai mare decât rezerva necheltuibilă necesară ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Fonduri insuficiente",
   "AMOUNT_IS_NOT_INTEGER": "Suma nu este un număr întreg",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maxim {decimals} zecimale permise",
