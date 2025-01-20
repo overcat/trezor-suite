@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Bedrag",
   "AMOUNT_IS_BELOW_DUST": "Bedrag moet minimaal {dust} zijn",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Ontvangend account vereist minimale reserve {reserve} XRP om te activeren",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Bedrag is hoger dan de vereiste niet-besteedbare reserve ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Ontvangend account vereist minimale reserve {reserve} {symbol} om te activeren",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Bedrag is hoger dan de vereiste niet-besteedbare reserve ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Onvoldoende saldo",
   "AMOUNT_IS_NOT_INTEGER": "Bedrag is geen geheel getal",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maximaal {decimals} decimalen toegestaan",

@@ -207,6 +207,29 @@ const constructNewFlow = ({
 
     const hasBitcoinLockTime = 'bitcoinLockTime' in precomposedForm;
     const hasRippleDestinationTag = 'rippleDestinationTag' in precomposedForm;
+    const hasStellarMemo = 'stellarMemo' in precomposedForm;
+
+    if (networkType === 'stellar') {
+        // stellar displays requests on device:
+        // 1. TimeBounds (no restriction)
+        // 2. Memo
+        // 3. Recipient
+        // 4. Amount
+        // 5. Fee
+        outputs.push(
+            {
+                type: 'timebounds',
+                value: '[no restriction]',
+            },
+            {
+                type: 'memo',
+                value:
+                    hasStellarMemo && precomposedForm.stellarMemo
+                        ? precomposedForm.stellarMemo
+                        : 'No memo set! Many exchanges require a memo when depositing.',
+            },
+        );
+    }
 
     if (precomposedForm.ethereumDataHex && !precomposedTx.token) {
         outputs.push({ type: 'data', value: precomposedForm.ethereumDataHex });

@@ -1,18 +1,26 @@
+import {
+    TransactionBuilder,
+    Account,
+    Networks,
+    Memo,
+    Operation,
+    Asset,
+} from '@stellar/stellar-sdk';
+
 import { BigNumber } from '@trezor/utils/src/bigNumber';
-import TrezorConnect, { FeeLevel, RipplePayment } from '@trezor/connect';
+import TrezorConnect, { FeeLevel } from '@trezor/connect';
+import { transformTransaction } from '@trezor/connect-plugin-stellar';
 import {
     calculateTotal,
     calculateMax,
     getExternalComposeOutput,
-    networkAmountToSmallestUnit,
     formatNetworkAmount,
 } from '@suite-common/wallet-utils';
-import { XRP_FLAG } from '@suite-common/wallet-constants';
 import {
     PrecomposedLevels,
     PrecomposedTransaction,
     ExternalOutput,
-    AddressDisplayOptions,
+    PrecomposedTransactionStellar,
 } from '@suite-common/wallet-types';
 import { createThunk } from '@suite-common/redux-utils';
 
@@ -24,6 +32,7 @@ import {
 } from './sendFormTypes';
 import { SEND_MODULE_PREFIX } from './sendFormConstants';
 
+// Copied from ./sendFormRippleThunks.ts
 const calculate = (
     availableBalance: string,
     output: ExternalOutput,
@@ -64,7 +73,7 @@ const calculate = (
         max,
         fee: feeInSatoshi,
         feePerByte: feeLevel.feePerUnit,
-        bytes: 0, // TODO: calculate
+        bytes: 0,
         inputs: [],
     };
 
@@ -88,12 +97,13 @@ const calculate = (
     return payloadData;
 };
 
-export const composeRippleTransactionFeeLevelsThunk = createThunk<
+// Copied from ./sendFormRippleThunks.ts
+export const composeStellarTransactionFeeLevelsThunk = createThunk<
     PrecomposedLevels,
     ComposeTransactionThunkArguments,
     { rejectValue: ComposeFeeLevelsError }
 >(
-    `${SEND_MODULE_PREFIX}/composeEthereumTransactionFeeLevelsThunk`,
+    `${SEND_MODULE_PREFIX}/composeStellarTransactionFeeLevelsThunk`,
     async ({ formState, composeContext }, { rejectWithValue }) => {
         const { account, network, feeInfo } = composeContext;
         const composeOutputs = getExternalComposeOutput(formState, account, network);
@@ -190,57 +200,53 @@ export const composeRippleTransactionFeeLevelsThunk = createThunk<
     },
 );
 
-export const signRippleSendFormTransactionThunk = createThunk<
+export const signStellarSendFormTransactionThunk = createThunk<
     { serializedTx: string },
-    SignTransactionThunkArguments,
+    SignTransactionThunkArguments & { precomposedTransaction: PrecomposedTransactionStellar },
     { rejectValue: SignTransactionError }
 >(
-    `${SEND_MODULE_PREFIX}/signRippleSendFormTransactionThunk`,
-    async (
-        { formState, precomposedTransaction, selectedAccount, device },
-        { getState, extra, rejectWithValue },
-    ) => {
-        const {
-            selectors: { selectAddressDisplayType },
-        } = extra;
-
-        const addressDisplayType = selectAddressDisplayType(getState());
-
-        if (selectedAccount.networkType !== 'ripple')
+    `${SEND_MODULE_PREFIX}/signStellarSendFormTransactionThunk`,
+    async ({ formState, precomposedTransaction, selectedAccount }, { rejectWithValue }) => {
+        if (selectedAccount.networkType !== 'stellar')
             return rejectWithValue({
                 error: 'sign-transaction-failed',
                 message: 'Invalid network type.',
             });
 
-        const payment: RipplePayment = {
-            destination: formState.outputs[0].address,
-            amount: networkAmountToSmallestUnit(
-                formState.outputs[0].amount,
-                selectedAccount.symbol,
-            ),
-        };
+        const source = new Account(
+            selectedAccount.descriptor,
+            selectedAccount.misc.stellarSequence.toString(),
+        );
 
-        if (formState.rippleDestinationTag) {
-            payment.destinationTag = parseInt(formState.rippleDestinationTag, 10);
+        const txBuilder = new TransactionBuilder(source, {
+            fee: precomposedTransaction.feePerByte,
+            networkPassphrase: Networks.PUBLIC,
+        }).setTimebounds(0, 0);
+
+        if (formState.stellarMemo) {
+            txBuilder.addMemo(Memo.text(formState.stellarMemo));
         }
 
-        const response = await TrezorConnect.rippleSignTransaction({
-            device: {
-                path: device.path,
-                instance: device.instance,
-                state: device.state,
-            },
-            useEmptyPassphrase: device.useEmptyPassphrase,
-            path: selectedAccount.path,
-            transaction: {
-                fee: precomposedTransaction.feePerByte,
-                flags: XRP_FLAG,
-                sequence: selectedAccount.misc.sequence,
-                payment,
-            },
-            chunkify: addressDisplayType === AddressDisplayOptions.CHUNKED,
-        });
+        if (precomposedTransaction.destinationActivated) {
+            txBuilder.addOperation(
+                Operation.payment({
+                    destination: formState.outputs[0].address,
+                    asset: Asset.native(),
+                    amount: formState.outputs[0].amount,
+                }),
+            );
+        } else {
+            txBuilder.addOperation(
+                Operation.createAccount({
+                    destination: formState.outputs[0].address,
+                    startingBalance: formState.outputs[0].amount,
+                }),
+            );
+        }
 
+        const transaction = txBuilder.build();
+        const transformedTransaction = transformTransaction(selectedAccount.path, transaction);
+        const response = await TrezorConnect.stellarSignTransaction(transformedTransaction);
         if (!response.success) {
             // catch manual error from TransactionReviewModal
             return rejectWithValue({
@@ -250,6 +256,9 @@ export const signRippleSendFormTransactionThunk = createThunk<
             });
         }
 
-        return { serializedTx: response.payload.serializedTx };
+        const signature = Buffer.from(response.payload.signature, 'hex').toString('base64');
+        transaction.addSignature(selectedAccount.descriptor, signature);
+
+        return { serializedTx: transaction.toEnvelope().toXDR('hex') };
     },
 );

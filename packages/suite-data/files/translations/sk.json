@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Suma",
   "AMOUNT_IS_BELOW_DUST": "Suma musí byť väčšia alebo rovná limitu prašnosti ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Účet príjemcu vyžaduje na aktiváciu minimálnu rezervu {reserve} XRP",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Suma je vyššia ako požadovaná nevyužiteľná rezerva ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Účet príjemcu vyžaduje na aktiváciu minimálnu rezervu {reserve} {symbol}",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Suma je vyššia ako požadovaná nevyužiteľná rezerva ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Nedostatok prostriedkov",
   "AMOUNT_IS_NOT_INTEGER": "Suma nie je celé číslo",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maximálne povolené {decimals} desatinné miesta",

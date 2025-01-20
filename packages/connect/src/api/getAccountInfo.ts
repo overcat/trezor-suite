@@ -273,6 +273,7 @@ export default class GetAccountInfo extends AbstractMethod<'getAccountInfo', Req
                     contractFilter: request.contractFilter,
                     gap: request.gap,
                     marker: request.marker,
+                    stellarCursor: request.stellarCursor,
                     tokenAccountsPubKeys: request.tokenAccountsPubKeys,
                 });
 
@@ -385,6 +386,7 @@ export default class GetAccountInfo extends AbstractMethod<'getAccountInfo', Req
             contractFilter: request.contractFilter,
             gap: request.gap,
             marker: request.marker,
+            stellarCursor: request.stellarCursor,
         });
 
         let utxo: AccountUtxo[] | undefined;

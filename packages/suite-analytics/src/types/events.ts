@@ -204,6 +204,7 @@ export type SuiteAnalyticsEvent =
               ethereumData: boolean;
               ethereumNonce: boolean;
               rippleDestinationTag: boolean;
+              stellarMemo: boolean;
               selectedFee: string;
               isCoinControlEnabled: boolean;
               hasCoinControlBeenOpened: boolean;
@@ -400,7 +401,8 @@ export type SuiteAnalyticsEvent =
                   | 'blockfrost'
                   | 'coinjoin'
                   | 'default'
-                  | 'solana';
+                  | 'solana'
+                  | 'stellar';
               totalRegular: number;
               totalOnion: number;
           };

@@ -147,6 +147,7 @@ export const TransactionReviewOutputList = ({
                 bitcoinLockTime: !!options.includes('bitcoinLockTime'),
                 ethereumData: !!options.includes('ethereumData'),
                 rippleDestinationTag: !!options.includes('rippleDestinationTag'),
+                stellarMemo: !!options.includes('stellarMemo'),
                 ethereumNonce: !!options.includes('ethereumNonce'),
                 selectedFee: selectedFee || 'normal',
                 isCoinControlEnabled,

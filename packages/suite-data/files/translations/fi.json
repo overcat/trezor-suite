@@ -1,6 +1,6 @@
 {
   "AMOUNT": "Määrä",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Määrä ylittää vaaditun käyttämättömän varauksen ({reserve} XRP)",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Määrä ylittää vaaditun käyttämättömän varauksen ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Liian vähän rahaa",
   "AMOUNT_IS_NOT_INTEGER": "Ei ole kokonaisluku",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Enintään {decimals} desimaalia sallittu",

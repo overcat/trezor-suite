@@ -1,8 +1,8 @@
 {
   "AMOUNT": "금액",
   "AMOUNT_IS_BELOW_DUST": "금액이 더스트 한도보다 ({dust}) 낮습니다. ",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "수신인 계정을 활성화하려면 최소 예비 {reserve} XRP가 필요합니다 ",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "금액이 필수 지출 불가 준비금({reserve} XRP)보다 많습니다. ",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "수신인 계정을 활성화하려면 최소 예비 {reserve} {symbol}가 필요합니다 ",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "금액이 필수 지출 불가 준비금({reserve} {symbol})보다 많습니다. ",
   "AMOUNT_IS_NOT_ENOUGH": "금액이 충분하지 않습니다",
   "AMOUNT_IS_NOT_INTEGER": "금액이 정수가 아닙니다.",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "최대 {decimals} 자리까지 허용됩니다.",

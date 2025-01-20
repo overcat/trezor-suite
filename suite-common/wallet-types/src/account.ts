@@ -25,17 +25,20 @@ type AccountNetworkSpecific =
           networkType: 'bitcoin';
           misc: undefined;
           marker: undefined;
+          stellarCursor: undefined;
           page: AccountInfo['page'];
       }
     | {
           networkType: 'ripple';
           misc: { sequence: number; reserve: string };
           marker: AccountInfo['marker'];
+          stellarCursor: undefined;
           page: undefined;
       }
     | {
           networkType: 'cardano';
           marker: undefined;
+          stellarCursor: undefined;
           misc: {
               staking: {
                   address: string;
@@ -55,6 +58,7 @@ type AccountNetworkSpecific =
               addressAliases?: { [key: string]: AddressAlias };
           };
           marker: undefined;
+          stellarCursor: undefined;
           page: AccountInfo['page'];
       }
     | {
@@ -63,7 +67,15 @@ type AccountNetworkSpecific =
               rent?: number;
           };
           marker: undefined;
+          stellarCursor: undefined;
           page: AccountInfo['page'];
+      }
+    | {
+          networkType: 'stellar';
+          misc: { stellarSequence: string; reserve: string };
+          marker: undefined;
+          stellarCursor: AccountInfo['stellarCursor'];
+          page: undefined;
       };
 
 // decides if account is using TrezorConnect/blockchain-link or other non-standard api

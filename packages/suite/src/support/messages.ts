@@ -3454,6 +3454,11 @@ export default defineMessages({
             'XRP addresses require a minimum balance of {minBalance} XRP to activate and maintain the account.',
         id: 'TR_XRP_RESERVE_INFO',
     },
+    TR_STELLAR_RESERVE_INFO: {
+        defaultMessage:
+            'Stellar addresses require a minimum balance of {minBalance} XLM to activate and maintain the account.',
+        id: 'TR_XRP_RESERVE_INFO',
+    },
     TR_YOU_WERE_DISCONNECTED_DOT: {
         defaultMessage: 'You were disconnected.',
         id: 'TR_YOU_WERE_DISCONNECTED_DOT',
@@ -3514,6 +3519,10 @@ export default defineMessages({
     TR_GAS_USED: {
         id: 'TR_GAS_USED',
         defaultMessage: 'Gas used',
+    },
+    TR_OPERATION_ID: {
+        id: 'TR_OPERATION_ID',
+        defaultMessage: 'Operation ID',
     },
     TR_NONCE: {
         id: 'TR_NONCE',
@@ -3593,6 +3602,11 @@ export default defineMessages({
         id: 'TR_ACCOUNT_TYPE_XRP_DESC',
         defaultMessage:
             'XRP is a digital currency that enables fast, low-cost cross-border payments without relying on traditional mining, using a consensus ledger for quick transaction confirmations.',
+    },
+    TR_ACCOUNT_TYPE_STELLAR_DESC: {
+        id: 'TR_ACCOUNT_TYPE_STELLAR_DESC',
+        defaultMessage:
+            'Stellar is a decentralized, public blockchain that gives developers the tools to create experiences that are more like cash than crypto. The network is faster, cheaper, and far more energy-efficient than most blockchain-based systems. It’s designed so Stellar’s ecosystem can make a real-world, lasting impact.',
     },
     TR_ACCOUNT_DETAILS_XPUB_HEADER: {
         id: 'TR_ACCOUNT_DETAILS_XPUB_HEADER',
@@ -5428,11 +5442,11 @@ export default defineMessages({
         id: 'AMOUNT_IS_BELOW_DUST',
     },
     AMOUNT_IS_MORE_THAN_RESERVE: {
-        defaultMessage: 'Amount is above the required unspendable reserve ({reserve} XRP)',
+        defaultMessage: 'Amount is above the required unspendable reserve ({reserve} {symbol})',
         id: 'AMOUNT_IS_MORE_THAN_RESERVE',
     },
     AMOUNT_IS_LESS_THAN_RESERVE: {
-        defaultMessage: 'Recipient account requires minimum reserve {reserve} XRP to activate',
+        defaultMessage: 'Recipient account requires minimum reserve {reserve} {symbol} to activate',
         id: 'AMOUNT_IS_LESS_THAN_RESERVE',
     },
     AMOUNT_NOT_ENOUGH_CURRENCY_FEE: {
@@ -5520,6 +5534,28 @@ export default defineMessages({
     DESTINATION_TAG_IS_NOT_NUMBER: {
         defaultMessage: "Destination tag isn't a number",
         id: 'DESTINATION_TAG_IS_NOT_NUMBER',
+    },
+    MEMO: {
+        defaultMessage: 'Memo',
+        id: 'MEMO',
+    },
+    MEMO_TEXT: {
+        defaultMessage: 'Memo (required by exchanges)',
+        id: 'MEMO_TEXT',
+    },
+    MEMO_TOOLTIP: {
+        defaultMessage:
+            'Memo is an optional field for adding any relevant identifying information.',
+        id: 'MEMO_TOOLTIP',
+    },
+    MEMO_NOT_SET: {
+        defaultMessage: "Memo isn't set",
+        id: 'MEMO_NOT_SET',
+    },
+    TIME_BOUNDS: {
+        id: 'TIME_BOUNDS',
+        description: 'Used in reviewTransaction modal',
+        defaultMessage: 'Time bounds',
     },
     DATA_ETH: {
         id: 'DATA_ETH',

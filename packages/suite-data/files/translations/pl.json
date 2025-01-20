@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Ilość",
   "AMOUNT_IS_BELOW_DUST": "Kwota jest poniżej limitu pyłu ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Konto odbiorcy wymaga rezerwy obowiązkowej {reserve} XRP aby aktywować",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Kwota jest wyższa niż wymagana niewydatkowana rezerwa ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Konto odbiorcy wymaga rezerwy obowiązkowej {reserve} {symbol} aby aktywować",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Kwota jest wyższa niż wymagana niewydatkowana rezerwa ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Brak wystarczającej ilości środków",
   "AMOUNT_IS_NOT_INTEGER": "Kwota nie jest liczbą całkowitą",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maksymalnie {decimals} miejsc po przecinku dozwolonych",

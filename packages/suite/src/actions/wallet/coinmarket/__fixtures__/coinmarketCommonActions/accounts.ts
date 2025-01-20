@@ -41,6 +41,7 @@ export const BTC_ACCOUNT: Account = {
     page: undefined,
     misc: undefined,
     marker: undefined,
+    stellarCursor: undefined,
     ts: 0,
 };
 
@@ -79,6 +80,7 @@ export const ETH_ACCOUNT: Account = {
     page: undefined,
     misc: { nonce: '1' },
     marker: undefined,
+    stellarCursor: undefined,
     ts: 0,
 };
 
@@ -120,5 +122,6 @@ export const XRP_ACCOUNT: Account = {
         reserve: '20000000',
     },
     marker: undefined,
+    stellarCursor: undefined,
     ts: 0,
 };

@@ -10,6 +10,7 @@ import { AuthConfirmFailed } from './AuthConfirmFailed';
 import { BackendDisconnected } from './BackendDisconnected';
 import { DeviceUnavailable } from './DeviceUnavailable';
 import { XRPReserve } from './XRPReserve';
+import { StellarReserveBanner } from './StellarReserveBanner';
 import { AccountImported } from './AccountImported';
 import { AccountOutOfSync } from './AccountOutOfSync';
 import { TorDisconnected } from './TorDisconnected';
@@ -36,6 +37,7 @@ export const AccountBanners = ({ account }: AccountBannersProps) => {
             <DeviceUnavailable />
             <TorDisconnected />
             <XRPReserve account={account} />
+            <StellarReserveBanner account={account} />
             <AccountImported account={account} />
             <AccountOutOfSync account={account} />
             <EvmExplanationBanner account={account} />

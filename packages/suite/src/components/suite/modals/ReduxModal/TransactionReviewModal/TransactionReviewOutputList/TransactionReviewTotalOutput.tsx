@@ -60,6 +60,8 @@ const getLines = (
                 return 'MAX_FEE';
             case 'solana':
                 return 'TR_TX_FEE';
+            case 'stellar':
+                return 'MAX_FEE';
             default:
                 return 'TR_INCLUDING_FEE';
         }
@@ -94,9 +96,9 @@ const getLines = (
                 value: tokenInfo
                     ? formatAmount(precomposedTx.totalSpent, tokenInfo.decimals)
                     : formatNetworkAmount(
-                          showAmountWithoutFee ? amountWithoutFee : precomposedTx.totalSpent,
-                          symbol,
-                      ),
+                        showAmountWithoutFee ? amountWithoutFee : precomposedTx.totalSpent,
+                        symbol,
+                    ),
             },
             {
                 id: 'fee',

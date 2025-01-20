@@ -119,6 +119,7 @@ interface AddFakePendingTransactionParams {
     account: Account;
 }
 
+// TODO(stellar): add stellar implementation? addFakePendingStellarTxThunk?
 export const addFakePendingTxThunk = createThunk(
     `${TRANSACTIONS_MODULE_PREFIX}/addFakePendingTransaction`,
     (
@@ -245,6 +246,7 @@ type FetchTransactionsPageThunkParams = {
     perPage: number;
     noLoading?: boolean;
     forceRefetch?: boolean;
+    stellarCursor?: string;
 };
 
 export const fetchTransactionsPageThunk = createThunk(
@@ -273,14 +275,15 @@ export const fetchTransactionsPageThunk = createThunk(
             return 'ALREADY_FETCHED' as const;
         }
 
-        const { marker } = account;
+        const { marker, stellarCursor } = account;
         const result = await TrezorConnect.getAccountInfo({
             coin: account.symbol,
             identity: tryGetAccountIdentity(account),
             descriptor: account.descriptor,
             details: 'txs',
-            page, // useful for every network except ripple
+            page, // useful for every network except ripple and stellar
             pageSize: perPage,
+            stellarCursor,
             ...(marker ? { marker } : {}), // set marker only if it is not undefined (ripple), otherwise it fails on marker validation
             suppressBackupWarning: true,
         });
@@ -345,6 +348,7 @@ export const fetchAllTransactionsForAccountThunk = createSingleInstanceThunk(
         let page = 1;
         // marker is used instead of page for ripple (cursor based pagination)
         let marker: AccountInfo['marker'] | undefined;
+        let stellarCursor: AccountInfo['stellarCursor'] | undefined;
         let totalPages = 0;
         let forceRefetch = false;
         const perPage = areAllTransactionsAlreadyFetched ? 5 : getTxsPerPage(account.networkType);
@@ -358,6 +362,8 @@ export const fetchAllTransactionsForAccountThunk = createSingleInstanceThunk(
                     // Loading here MUST be always disabled, because loading is handled by this thunk a not by fetchTransactionsPageThunk
                     noLoading: true,
                     forceRefetch,
+                    stellarCursor,
+                    // ...(stellarCursor ? { stellarCursor } : {}),
                     ...(marker ? { marker } : {}), // set marker only if it is not undefined (ripple), otherwise it fails on marker validation
                 }),
             ).unwrap();
@@ -381,16 +387,19 @@ export const fetchAllTransactionsForAccountThunk = createSingleInstanceThunk(
                     page += 1;
                     continue;
                 }
+                // NOTE(stellar): The current Stellar implementation relies on this caching feature.
             }
 
             totalPages = result.page?.total || totalPages;
-            const areThereMorePages = page < totalPages || !!result.marker;
+            const areThereMorePages =
+                page < totalPages || !!result.marker || !!result.stellarCursor;
 
             if (!areThereMorePages) {
                 break;
             }
 
             marker = result.marker;
+            stellarCursor = result.stellarCursor;
             page += 1;
         }
 
@@ -429,6 +438,7 @@ export const fetchTransactionsFromNowUntilTimestamp = createSingleInstanceThunk(
 
         let page = 1;
         let marker: AccountInfo['marker'] | undefined;
+        let stellarCursor: AccountInfo['stellarCursor'] | undefined;
         let totalPages = 0;
         // Some reasonable number of transactions per page, that user could have in given time period.
         // If necessary this could be improved for example by checking how many transactions account has in total etc, how far in past is the timestamp etc.
@@ -442,6 +452,8 @@ export const fetchTransactionsFromNowUntilTimestamp = createSingleInstanceThunk(
                     perPage,
                     // Loading here MUST be always disabled, because loading is handled by this thunk a not by fetchTransactionsPageThunk
                     noLoading: true,
+                    // ...(stellarCursor ? { stellarCursor } : {}),
+                    stellarCursor,
                     ...(marker ? { marker } : {}), // set marker only if it is not undefined (ripple), otherwise it fails on marker validation
                 }),
             ).unwrap();
@@ -471,6 +483,7 @@ export const fetchTransactionsFromNowUntilTimestamp = createSingleInstanceThunk(
             }
 
             marker = result.marker;
+            stellarCursor = result.stellarCursor;
             page += 1;
         }
 

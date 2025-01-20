@@ -118,4 +118,5 @@ export const FeeDetails = (props: DetailsProps) => {
             </Row>
         </Text>
     );
+    // TODO(stellar): implement similar logic for Stellar?
 };

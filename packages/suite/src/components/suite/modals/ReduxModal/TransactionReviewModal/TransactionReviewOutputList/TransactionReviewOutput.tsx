@@ -26,6 +26,8 @@ const getFeeLabel = (networkType: Account['networkType']) => {
             return 'MAX_FEE';
         case 'solana':
             return 'EXPECTED_FEE';
+        case 'stellar':
+            return 'MAX_FEE';
         default:
             return 'FEE';
     }
@@ -223,6 +225,24 @@ export const TransactionReviewOutput = forwardRef<HTMLDivElement, TransactionRev
                 {
                     id: 'opreturn',
                     label: <Translation id="OP_RETURN" />,
+                    value: outputValue,
+                    plainValue: true,
+                },
+            ];
+        } else if (type === 'timebounds') {
+            outputLines = [
+                {
+                    id: 'timebounds',
+                    label: <Translation id="TIME_BOUNDS" />,
+                    value: outputValue,
+                    plainValue: true,
+                },
+            ];
+        } else if (type === 'memo') {
+            outputLines = [
+                {
+                    id: 'memo',
+                    label: <Translation id="MEMO_TEXT" />,
                     value: outputValue,
                     plainValue: true,
                 },

@@ -139,7 +139,15 @@ export type PrecomposedTransactionCardano =
     | PrecomposedTransactionCardanoNonFinal
     | PrecomposedTransactionCardanoFinal;
 
-export type GeneralPrecomposedTransaction = PrecomposedTransaction | PrecomposedTransactionCardano;
+export type PrecomposedTransactionStellar = PrecomposedTransaction & {
+    destinationActivated?: boolean;
+};
+
+export type GeneralPrecomposedTransaction =
+    | PrecomposedTransaction
+    | PrecomposedTransactionCardano
+    | PrecomposedTransactionStellar;
+
 export type GeneralPrecomposedTransactionFinal = Extract<
     GeneralPrecomposedTransaction,
     { type: 'final' }
@@ -246,6 +254,8 @@ export type ReviewOutput =
               | 'locktime'
               | 'fee'
               | 'destination-tag'
+              | 'memo'
+              | 'timebounds'
               | 'txid'
               | 'address'
               | 'amount'

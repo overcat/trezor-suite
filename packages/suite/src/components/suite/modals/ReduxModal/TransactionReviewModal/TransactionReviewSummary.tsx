@@ -199,6 +199,7 @@ const feeLabelTranslationIdByNetworkTypeMap: { [key in NetworkType]: Translation
     ripple: 'TR_TX_FEE',
     solana: 'TR_TX_FEE',
     cardano: 'TR_TX_FEE',
+    stellar: 'TR_TX_FEE',
 };
 
 interface TransactionReviewSummaryProps {

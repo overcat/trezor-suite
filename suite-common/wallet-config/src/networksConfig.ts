@@ -491,6 +491,24 @@ export const networks = {
         coingeckoId: 'vertcoin',
         coingeckoNativeId: 'vertcoin',
     },
+    xlm: {
+        symbol: 'xlm',
+        name: 'Stellar',
+        networkType: 'stellar',
+        bip43Path: "m/44'/148'/i'",
+        decimals: 7,
+        testnet: false,
+        explorer: {
+            tx: 'https://stellar.expert/explorer/public/tx/',
+            account: 'https://stellar.expert/explorer/public/account/',
+            address: 'https://stellar.expert/explorer/public/account/',
+        },
+        features: [],
+        customBackends: ['stellar'],
+        accountTypes: {},
+        coingeckoId: 'stellar',
+        coingeckoNativeId: 'stellar',
+    },
     // testnets
     test: {
         symbol: 'test',

@@ -66,7 +66,7 @@ export const AdvancedTxDetails = ({
                 <Tabs.Item id="amount" onClick={() => setSelectedTab('amount')}>
                     <Translation id="TR_TX_TAB_AMOUNT" />
                 </Tabs.Item>
-                {network.networkType !== 'ripple' && (
+                {(network.networkType !== 'ripple') && (
                     <Tabs.Item id="io" onClick={() => setSelectedTab('io')}>
                         <Translation id="TR_INPUTS_OUTPUTS" />
                     </Tabs.Item>

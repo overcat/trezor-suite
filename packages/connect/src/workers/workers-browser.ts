@@ -1,6 +1,7 @@
 import BlockbookWorker from '@trezor/blockchain-link/src/workers/blockbook';
 import RippleWorker from '@trezor/blockchain-link/src/workers/ripple';
 import BlockfrostWorker from '@trezor/blockchain-link/src/workers/blockfrost';
+import StellarWorker from '@trezor/blockchain-link/src/workers/stellar';
 import type { BaseWorker } from '@trezor/blockchain-link/src/workers/baseWorker';
 
 type WorkerAsyncImporter = () => Promise<BaseWorker<unknown>>;
@@ -12,4 +13,4 @@ const SolanaWorker: WorkerAsyncImporter = () =>
     ).then(w => w.default());
 const ElectrumWorker = undefined;
 
-export { BlockbookWorker, RippleWorker, BlockfrostWorker, ElectrumWorker, SolanaWorker };
+export { BlockbookWorker, RippleWorker, BlockfrostWorker, ElectrumWorker, SolanaWorker, StellarWorker };

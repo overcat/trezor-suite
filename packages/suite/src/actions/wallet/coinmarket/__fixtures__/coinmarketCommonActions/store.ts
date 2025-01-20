@@ -44,6 +44,7 @@ export const ACCOUNT: Account = {
     page: undefined,
     misc: undefined,
     marker: undefined,
+    stellarCursor: undefined,
     ts: 0,
 };
 

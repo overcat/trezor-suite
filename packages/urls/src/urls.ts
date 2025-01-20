@@ -143,3 +143,7 @@ export const ESHOP_KEEP_METAL_SINGLE_SHARE_URL: Url =
     'https://trezor.io/trezor-keep-metal-single-share';
 
 export const COINMARKET_DOWNLOAD_INVITY_APP_URL: Url = 'https://get.invity.io';
+
+// TODO(stellar): remove this URL and add help center article?
+export const STELLAR_RESERVE_INFO_URL: Url =
+    'https://developers.stellar.org/docs/learn/fundamentals/lumens#minimum-balance';

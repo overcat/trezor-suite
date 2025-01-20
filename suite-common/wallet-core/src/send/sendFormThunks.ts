@@ -14,6 +14,7 @@ import {
     PrecomposedTransactionFinal,
     PrecomposedTransactionFinalCardano,
     PrecomposedTransactionFinalRbf,
+    PrecomposedTransactionStellar,
 } from '@suite-common/wallet-types';
 import { notificationsActions } from '@suite-common/toast-notifications';
 import { getNetwork, NetworkSymbol } from '@suite-common/wallet-config';
@@ -66,6 +67,10 @@ import {
     signSolanaSendFormTransactionThunk,
     composeSolanaTransactionFeeLevelsThunk,
 } from './sendFormSolanaThunks';
+import {
+    composeStellarTransactionFeeLevelsThunk,
+    signStellarSendFormTransactionThunk,
+} from './sendFormStellarThunks';
 import { SEND_MODULE_PREFIX } from './sendFormConstants';
 import {
     ComposeActionContext,
@@ -134,6 +139,7 @@ type CoinSpecificComposeResponse = ActionsFromAsyncThunk<
     | typeof composeEthereumTransactionFeeLevelsThunk
     | typeof composeCardanoTransactionFeeLevelsThunk
     | typeof composeSolanaTransactionFeeLevelsThunk
+    | typeof composeStellarTransactionFeeLevelsThunk
 >;
 
 export const composeSendFormTransactionFeeLevelsThunk = createThunk<
@@ -169,6 +175,10 @@ export const composeSendFormTransactionFeeLevelsThunk = createThunk<
         } else if (networkType === 'solana') {
             response = await dispatch(
                 composeSolanaTransactionFeeLevelsThunk({ formState, composeContext }),
+            );
+        } else if (networkType === 'stellar') {
+            response = await dispatch(
+                composeStellarTransactionFeeLevelsThunk({ formState, composeContext }),
             );
         } else {
             const _exhaustiveCheck: never = networkType;
@@ -393,6 +403,7 @@ type CoinSpecificSignResponse = ActionsFromAsyncThunk<
     | typeof signEthereumSendFormTransactionThunk
     | typeof signRippleSendFormTransactionThunk
     | typeof signSolanaSendFormTransactionThunk
+    | typeof signStellarSendFormTransactionThunk
 >;
 
 export const signTransactionThunk = createThunk<
@@ -454,6 +465,8 @@ export const signTransactionThunk = createThunk<
                 response = await dispatch(signRippleSendFormTransactionThunk(thunkArguments));
             } else if (networkType === 'solana') {
                 response = await dispatch(signSolanaSendFormTransactionThunk(thunkArguments));
+            } else if (networkType === 'stellar') {
+                response = await dispatch(signStellarSendFormTransactionThunk(thunkArguments));
             }
         }
 
@@ -572,6 +585,23 @@ export const enhancePrecomposedTransactionThunk = createThunk<
                 .catch(() => false);
 
             enhancedPrecomposedTransaction.isTokenKnown = isTokenKnown;
+        }
+
+        if (selectedAccount.networkType === 'stellar') {
+            // If the destination account is not activated, we need to construct a createAccount transaction,
+            // otherwise we use a payment transaction.
+            const destinationResponse = await TrezorConnect.getAccountInfo({
+                descriptor: formValues.outputs[0].address,
+                coin: 'xlm',
+                suppressBackupWarning: true,
+            });
+            let destinationActivated = false;
+            if (destinationResponse.success && destinationResponse.payload.balance !== '0') {
+                destinationActivated = true;
+            }
+
+            (enhancedPrecomposedTransaction as PrecomposedTransactionStellar).destinationActivated =
+                destinationActivated;
         }
 
         // store formValues and transactionInfo in send reducer to be used by TransactionReviewModal

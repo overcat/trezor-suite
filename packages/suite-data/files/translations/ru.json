@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Сумма",
   "AMOUNT_IS_BELOW_DUST": "Сумма должна быть больше пылевого лимита ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Счет получателя требует минимального резерва {reserve} XRP для активации",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Сумма превышает минимальный неизрасходованный резерв ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Счет получателя требует минимального резерва {reserve} {symbol} для активации",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Сумма превышает минимальный неизрасходованный резерв ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Недостаточно средств",
   "AMOUNT_IS_NOT_INTEGER": "Сумма не является числом",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Допустимо максимум {decimals} десятичных знаков",

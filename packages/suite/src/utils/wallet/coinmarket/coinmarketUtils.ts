@@ -126,6 +126,7 @@ export const getUnusedAddressFromAccount = (account: Account) => {
             return { address: undefined, path: undefined };
         }
         case 'ripple':
+        case 'stellar':
         case 'ethereum':
         case 'solana': {
             return {
@@ -208,6 +209,7 @@ export const getComposeAddressPlaceholder = async (
         case 'solana':
         case 'ethereum':
         case 'ripple':
+        case 'stellar':
             return account.descriptor;
         // no default
     }

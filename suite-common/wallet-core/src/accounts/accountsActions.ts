@@ -75,8 +75,8 @@ const composeCreateAccountActionPayload = ({
     balance: accountInfo.balance,
     availableBalance: accountInfo.availableBalance,
     formattedBalance: formatNetworkAmount(
-        // xrp `availableBalance` is reduced by reserve, use regular balance
-        discoveryItem.networkType === 'ripple' ? accountInfo.balance : accountInfo.availableBalance,
+        // Ripple and Stellar `availableBalance` is reduced by reserve, use regular balance
+        discoveryItem.networkType === 'ripple' || discoveryItem.networkType === 'stellar' ? accountInfo.balance : accountInfo.availableBalance,
         discoveryItem.coin,
     ),
     tokens: enhanceTokens(accountInfo.tokens),
@@ -140,8 +140,8 @@ const updateAccount = createAction(
                     empty: accountInfo.empty,
                     visible: account.visible || !accountInfo.empty,
                     formattedBalance: formatNetworkAmount(
-                        // xrp `availableBalance` is reduced by reserve, use regular balance
-                        account.networkType === 'ripple'
+                        // Ripple and Stellar `availableBalance` is reduced by reserve, use regular balance
+                        account.networkType === 'ripple' || account.networkType === 'stellar'
                             ? accountInfo.balance
                             : accountInfo.availableBalance,
                         account.symbol,

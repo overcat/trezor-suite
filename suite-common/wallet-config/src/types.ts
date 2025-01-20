@@ -21,6 +21,7 @@ export type NetworkSymbol =
     | 'bnb'
     | 'base'
     | 'op'
+    | 'xlm'
     | 'test'
     | 'regtest'
     | 'tsep'
@@ -34,7 +35,7 @@ export type NetworkSymbol =
  */
 export type NetworkSymbolExtended = NetworkSymbol | (string & {});
 
-export type NetworkType = 'bitcoin' | 'ethereum' | 'ripple' | 'cardano' | 'solana';
+export type NetworkType = 'bitcoin' | 'ethereum' | 'ripple' | 'cardano' | 'solana' | 'stellar';
 
 type UtilityAccountType = 'normal' | 'imported'; // reserved accountTypes to stand in for a real accountType
 type RealAccountType = 'legacy' | 'segwit' | 'coinjoin' | 'taproot' | 'ledger';
@@ -46,6 +47,7 @@ export const TREZOR_CONNECT_BACKENDS = [
     'ripple',
     'blockfrost',
     'solana',
+    'stellar',
 ] as const;
 export const NON_STANDARD_BACKENDS = ['coinjoin'] as const;
 

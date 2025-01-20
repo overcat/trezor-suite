@@ -551,6 +551,18 @@ export class DeviceCommands {
             };
         }
 
+        // TODO(stellar): add support for stellar testnet
+        if (coinInfo.shortcut === 'XLM') {
+            const { message } = await this.typedCall('StellarGetAddress', 'StellarAddress', {
+                address_n,
+            });
+
+            return {
+                descriptor: message.address,
+                address_n,
+            };
+        }
+
         throw ERRORS.TypedError(
             'Runtime',
             'DeviceCommands.getAccountDescriptor: unsupported coinInfo.type',

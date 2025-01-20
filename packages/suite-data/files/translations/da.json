@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Beløb",
   "AMOUNT_IS_BELOW_DUST": "Beløbet er under støvgrænsen ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Modtagerkonto kræver mindstereserve {reserve} XRP for at aktivere",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Beløbet er over den krævede ubrugte reserve ({reserve} XRP)",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Modtagerkonto kræver mindstereserve {reserve} {symbol} for at aktivere",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Beløbet er over den krævede ubrugte reserve ({reserve} {symbol})",
   "AMOUNT_IS_NOT_ENOUGH": "Ikke nok penge",
   "AMOUNT_IS_NOT_INTEGER": "Beløb er ikke et heltal",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maksimum {decimals} decimaler tilladt",

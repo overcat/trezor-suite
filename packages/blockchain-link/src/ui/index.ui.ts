@@ -5,6 +5,7 @@ import CONFIG from './config';
 import BlockchainLink from '../index';
 import { getInputValue, fillValues, onClear } from './utils';
 import SolanaWorker from '../workers/solana';
+import StellarWorker from '../workers/stellar';
 
 const instances: BlockchainLink[] = [];
 
@@ -380,6 +381,10 @@ CONFIG.forEach(i => {
 
     if (i.blockchain.worker.includes('solana')) {
         worker = SolanaWorker;
+    }
+
+    if (i.blockchain.worker.includes('stellar')) {
+        worker = StellarWorker;
     }
 
     const b = new BlockchainLink({

@@ -21,6 +21,7 @@ export type Protocol =
     | 'polygon'
     | 'binance'
     | 'optimism'
+    | 'stellar'
     | 'test'
     | 'regtest'
     | 'ltc'
@@ -41,6 +42,7 @@ export type Protocol =
     | 'bnb'
     | 'base'
     | 'op'
+    | 'xlm'
     | 'test'
     | 'regtest'
     | 'tsep'
@@ -76,4 +78,5 @@ export const NETWORK_TO_PROTOCOLS: Record<NetworkSymbol, Protocol[]> = {
     txrp: ['txrp'],
     tada: ['tada'],
     dsol: ['dsol'],
+    xlm: ['stellar', 'xlm'],
 };

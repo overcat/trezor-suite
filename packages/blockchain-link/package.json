@@ -78,6 +78,7 @@
     "dependencies": {
         "@solana-program/token": "^0.4.1",
         "@solana/web3.js": "^2.0.0",
+        "@stellar/stellar-sdk": "^13.1.0",
         "@trezor/blockchain-link-types": "workspace:*",
         "@trezor/blockchain-link-utils": "workspace:*",
         "@trezor/env-utils": "workspace:*",

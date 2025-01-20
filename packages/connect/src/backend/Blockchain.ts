@@ -13,6 +13,7 @@ import {
     BlockfrostWorker,
     ElectrumWorker,
     SolanaWorker,
+    StellarWorker,
 } from '../workers/workers';
 import type { CoinInfo, Proxy } from '../types';
 
@@ -28,6 +29,8 @@ const getWorker = (type: string) => {
             return ElectrumWorker;
         case 'solana':
             return SolanaWorker;
+        case 'stellar':
+            return StellarWorker;
         default:
             return null;
     }

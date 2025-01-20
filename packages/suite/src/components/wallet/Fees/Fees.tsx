@@ -104,7 +104,7 @@ export const Fees = <TFieldValues extends FormState>({
                 direction="row"
                 typographyStyle="body"
                 label={
-                    networkType === 'ethereum' ? (
+                    networkType === 'ethereum' || networkType === 'stellar' ? (
                         <Tooltip
                             maxWidth={328}
                             hasIcon

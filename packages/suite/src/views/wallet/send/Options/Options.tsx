@@ -4,6 +4,7 @@ import { BitcoinOptions } from './BitcoinOptions/BitcoinOptions';
 import { EthereumOptions } from './EthereumOptions/EthereumOptions';
 import { RippleOptions } from './RippleOptions/RippleOptions';
 import { CardanoOptions } from './CardanoOptions';
+import { StellarOptions } from './StellarOptions/StellarOptions';
 
 export const Options = () => {
     const {
@@ -15,6 +16,7 @@ export const Options = () => {
             {networkType === 'bitcoin' && <BitcoinOptions />}
             {networkType === 'ethereum' && <EthereumOptions />}
             {networkType === 'ripple' && <RippleOptions />}
+            {networkType === 'stellar' && <StellarOptions />}
             {networkType === 'cardano' && <CardanoOptions />}
         </>
     );

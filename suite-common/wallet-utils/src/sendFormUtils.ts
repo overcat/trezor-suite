@@ -203,6 +203,7 @@ export const getFeeUnits = (networkType: NetworkType) => {
     if (networkType === 'ripple') return 'Drops';
     if (networkType === 'cardano') return 'Lovelaces/B';
     if (networkType === 'solana') return 'Lamports';
+    if (networkType == 'stellar') return 'stroops';  // A stroop is equivalent to 0.000001 XLM
 
     return 'sat/vB';
 };

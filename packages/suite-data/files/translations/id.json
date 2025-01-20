@@ -1,8 +1,8 @@
 {
   "AMOUNT": "Jumlah",
   "AMOUNT_IS_BELOW_DUST": "Jumlah harus lebih besar dari batas debu ({dust})",
-  "AMOUNT_IS_LESS_THAN_RESERVE": "Akun penerima memerlukan simpanan minimum {reserve} XRP untuk diaktifkan",
-  "AMOUNT_IS_MORE_THAN_RESERVE": "Jumlah melebihi simpanan yang tidak dapat dihabiskan yang dibutuhkan ({reserve} XRP)\"",
+  "AMOUNT_IS_LESS_THAN_RESERVE": "Akun penerima memerlukan simpanan minimum {reserve} {symbol} untuk diaktifkan",
+  "AMOUNT_IS_MORE_THAN_RESERVE": "Jumlah melebihi simpanan yang tidak dapat dihabiskan yang dibutuhkan ({reserve} {symbol})\"",
   "AMOUNT_IS_NOT_ENOUGH": "Dana tidak mencukupi",
   "AMOUNT_IS_NOT_INTEGER": "Jumlah bukan bilangan bulat",
   "AMOUNT_IS_NOT_IN_RANGE_DECIMALS": "Maksimum {desimal} desimal diperbolehkan",
