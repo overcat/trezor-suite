@@ -147,6 +147,7 @@ export const sendOutputsFormValidationSchema = yup.object({
 
                             if (!availableBalance || !symbol || getNetworkType(symbol) !== 'ripple')
                                 return true;
+                            // TODO(stellar): same logic for stellar?
 
                             const amountBigNumber = new BigNumber(value);
 

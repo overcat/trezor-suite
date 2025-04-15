@@ -71,6 +71,7 @@ export const AdvancedTxDetails = ({
                         <Translation id="TR_INPUTS_OUTPUTS" />
                     </Tabs.Item>
                 )}
+                {/* TODO(stellar): add same logic? */}
                 {chainedTxs && (
                     <Tabs.Item id="chained" onClick={() => setSelectedTab('chained')}>
                         <Translation id="TR_CHAINED_TXS" />

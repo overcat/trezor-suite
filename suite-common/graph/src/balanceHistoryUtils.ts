@@ -324,6 +324,7 @@ export const getAccountHistoryMovementFromTransactions = ({
             return getAccountHistoryMovementItemBTC({ transactions, from, to });
         case 'xrp':
             return getAccountHistoryMovementItemRipple({ transactions, from, to });
+        // TODO(stellar): add same logic?
         case 'eth':
         case 'pol':
         case 'bsc':

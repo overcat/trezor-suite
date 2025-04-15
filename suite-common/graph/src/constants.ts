@@ -13,6 +13,7 @@ export const LOCAL_BALANCE_HISTORY_COINS = [
     'base',
     'op',
 ] satisfies Array<NetworkSymbol>;
+// TODO(stellar): add same logic?
 export type LocalBalanceHistoryCoin = (typeof LOCAL_BALANCE_HISTORY_COINS)[number];
 
 export const isLocalBalanceHistoryCoin = (

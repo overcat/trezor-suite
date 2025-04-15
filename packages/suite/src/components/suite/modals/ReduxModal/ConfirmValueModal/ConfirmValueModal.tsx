@@ -145,6 +145,7 @@ export const ConfirmValueModal = ({
                             </Paragraph>
                         </Banner>
                     )}
+                    {/* TODO(stellar): add same logic? */}
                     {account?.networkType === 'ripple' && (
                         <Banner variant="info" icon="info">
                             <Translation

@@ -24,6 +24,7 @@ const getPaging = (network: Account['networkType'], txFetched: number, txTotal: 
     const perPage = getTxsPerPage(network);
     // There is no total in XRP, so always presume there could be one more tx and calculate page count accordingly
     const totalItems = network === 'ripple' ? txFetched + 1 : txTotal;
+    // TODO(stellar): there is no total in stellar too.
     const pagesTotal = Math.ceil(totalItems / perPage);
     // Consider incomplete pages unfetched unless fetched tx count equals total
     const page = txFetched === totalItems ? pagesTotal : Math.floor(txFetched / perPage);

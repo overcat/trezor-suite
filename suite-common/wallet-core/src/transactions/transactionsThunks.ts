@@ -389,7 +389,7 @@ export const fetchAllTransactionsForAccountThunk = createSingleInstanceThunk(
                     page += 1;
                     continue;
                 }
-                // NOTE(stellar): The current Stellar implementation relies on this caching feature.
+                // TODO(stellar): The current Stellar implementation relies on this caching feature, should we force refetch all transactions?
             }
 
             totalPages = result.page?.total || totalPages;

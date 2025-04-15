@@ -53,6 +53,8 @@ export const TransactionSummary = ({ account }: TransactionSummaryProps) => {
         return null;
     }
 
+    // TODO(stellar): add same logic.
+
     const error = intervalGraphData[0]?.error ?? false;
     const isLoading = intervalGraphData[0]?.isLoading ?? false;
 
@@ -76,9 +78,9 @@ export const TransactionSummary = ({ account }: TransactionSummaryProps) => {
     const dataInterval: [number, number] =
         selectedRange.label === 'all'
             ? [
-                  intervalGraphData[0]?.data[0]?.time,
-                  intervalGraphData[0]?.data[intervalGraphData[0].data.length - 1]?.time,
-              ]
+                intervalGraphData[0]?.data[0]?.time,
+                intervalGraphData[0]?.data[intervalGraphData[0].data.length - 1]?.time,
+            ]
             : [getUnixTime(selectedRange.startDate), getUnixTime(selectedRange.endDate)];
 
     const onRefresh = () => dispatch(updateGraphData([account]));

@@ -23,7 +23,7 @@ const StyledWarning = styled(Banner)`
 `;
 
 // eslint-disable-next-line local-rules/no-override-ds-component
-const ButtonReview = styled(Button)<{ $isRed: boolean }>`
+const ButtonReview = styled(Button) <{ $isRed: boolean }>`
     background: ${({ $isRed, theme }) => $isRed && theme.legacy.BUTTON_RED};
     display: flex;
     flex-direction: column;
@@ -95,6 +95,8 @@ export const ReviewButton = () => {
         networkType === 'ripple' &&
         options.includes('rippleDestinationTag') &&
         values.rippleDestinationTag === '';
+
+    // TODO(stellar): add same logic?
 
     const isDeviceConnected = device?.connected && device?.available;
     const composedTx = composedLevels ? composedLevels[values.selectedFee || 'normal'] : undefined;

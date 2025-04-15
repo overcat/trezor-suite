@@ -348,6 +348,8 @@ export const onBlockchainNotificationThunk = createThunk(
         if (account.networkType !== 'ripple') {
             dispatch(syncAccountsWithBlockchainThunk(symbol));
         }
+
+        // TODO(stellar): add same logic as in ripple?
     },
 );
 

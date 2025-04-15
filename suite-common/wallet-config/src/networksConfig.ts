@@ -399,21 +399,18 @@ export const networks = {
     },
     xlm: {
         symbol: 'xlm',
+        displaySymbol: 'XLM',
         name: 'Stellar',
         networkType: 'stellar',
         bip43Path: "m/44'/148'/i'",
         decimals: 7,
         testnet: false,
-        explorer: {
-            tx: 'https://stellar.expert/explorer/public/tx/',
-            account: 'https://stellar.expert/explorer/public/account/',
-            address: 'https://stellar.expert/explorer/public/account/',
-        },
+        explorer: getExplorerUrls('https://stellar.expert', 'stellar'),
         features: [],
-        customBackends: ['stellar'],
+        backendTypes: ['stellar'],
         accountTypes: {},
         coingeckoId: 'stellar',
-        coingeckoNativeId: 'stellar',
+        tradeCryptoId: 'stellar',
     },
     // testnets
     test: {

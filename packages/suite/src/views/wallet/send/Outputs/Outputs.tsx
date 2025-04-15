@@ -92,6 +92,7 @@ export const Outputs = ({ disableAnim }: OutputsProps) => {
                                             />
                                             <Amount output={outputs[index]} outputId={index} />
                                             {networkType === 'ripple' && <DestinationTag />}
+                                            {/* TODO(stellar): add same logic? */}
                                         </Column>
                                     )}
                                 </Card>
