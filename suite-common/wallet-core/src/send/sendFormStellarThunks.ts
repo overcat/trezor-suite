@@ -1,36 +1,36 @@
 import {
-    TransactionBuilder,
     Account,
-    Networks,
+    // Asset,
     Memo,
-    Operation,
-    Asset,
+    Networks,
+    // Operation,
+    TransactionBuilder,
 } from '@stellar/stellar-sdk';
 
-import { BigNumber } from '@trezor/utils/src/bigNumber';
-import TrezorConnect, { FeeLevel } from '@trezor/connect';
-import { transformTransaction } from '@trezor/connect-plugin-stellar';
+import { createThunk } from '@suite-common/redux-utils';
 import {
-    calculateTotal,
-    calculateMax,
-    getExternalComposeOutput,
-    formatNetworkAmount,
-} from '@suite-common/wallet-utils';
-import {
+    ExternalOutput,
     PrecomposedLevels,
     PrecomposedTransaction,
-    ExternalOutput,
-    PrecomposedTransactionStellar,
+    // PrecomposedTransactionStellar,
 } from '@suite-common/wallet-types';
-import { createThunk } from '@suite-common/redux-utils';
-
 import {
-    ComposeTransactionThunkArguments,
-    ComposeFeeLevelsError,
-    SignTransactionThunkArguments,
-    SignTransactionError,
-} from './sendFormTypes';
+    calculateMax,
+    calculateTotal,
+    formatNetworkAmount,
+    getExternalComposeOutput,
+} from '@suite-common/wallet-utils';
+import TrezorConnect, { FeeLevel } from '@trezor/connect';
+import { transformTransaction } from '@trezor/connect-plugin-stellar';
+import { BigNumber } from '@trezor/utils/src/bigNumber';
+
 import { SEND_MODULE_PREFIX } from './sendFormConstants';
+import {
+    ComposeFeeLevelsError,
+    ComposeTransactionThunkArguments,
+    SignTransactionError,
+    SignTransactionThunkArguments,
+} from './sendFormTypes';
 
 // Copied from ./sendFormRippleThunks.ts
 const calculate = (
@@ -227,22 +227,22 @@ export const signStellarSendFormTransactionThunk = createThunk<
             txBuilder.addMemo(Memo.text(formState.stellarMemo));
         }
 
-        if (precomposedTransaction.destinationActivated) {
-            txBuilder.addOperation(
-                Operation.payment({
-                    destination: formState.outputs[0].address,
-                    asset: Asset.native(),
-                    amount: formState.outputs[0].amount,
-                }),
-            );
-        } else {
-            txBuilder.addOperation(
-                Operation.createAccount({
-                    destination: formState.outputs[0].address,
-                    startingBalance: formState.outputs[0].amount,
-                }),
-            );
-        }
+        // if (precomposedTransaction.destinationActivated) {
+        //     txBuilder.addOperation(
+        //         Operation.payment({
+        //             destination: formState.outputs[0].address,
+        //             asset: Asset.native(),
+        //             amount: formState.outputs[0].amount,
+        //         }),
+        //     );
+        // } else {
+        //     txBuilder.addOperation(
+        //         Operation.createAccount({
+        //             destination: formState.outputs[0].address,
+        //             startingBalance: formState.outputs[0].amount,
+        //         }),
+        //     );
+        // }
 
         const transaction = txBuilder.build();
         const transformedTransaction = transformTransaction(selectedAccount.path, transaction);
