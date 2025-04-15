@@ -26,6 +26,7 @@ const getInfo = async (request: Request<MessageTypes.GetInfo>, isTestnet: boolea
         url: api.serverURL.toString(),
         name: 'Stellar',
         shortcut: 'xlm',
+        network: 'xlm', // TODO(Stellar): testnet?
         testnet: isTestnet,
         version: horizonServerInfo.horizon_version,
         decimals: 7,
