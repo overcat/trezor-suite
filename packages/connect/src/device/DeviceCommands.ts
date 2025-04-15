@@ -248,7 +248,7 @@ export const DeviceCommands = (deviceTypedCall: TypedCallProvider) => {
 
         // TODO(stellar): add support for stellar testnet
         if (coinInfo.shortcut === 'XLM') {
-            const { message } = await this.typedCall('StellarGetAddress', 'StellarAddress', {
+            const { message } = await typedCall('StellarGetAddress', 'StellarAddress', {
                 address_n,
             });
 
