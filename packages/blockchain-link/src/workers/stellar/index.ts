@@ -1,12 +1,12 @@
-import { Horizon, Transaction as StellarTransaction, Networks } from '@stellar/stellar-sdk';
+import { Horizon, Networks, Transaction as StellarTransaction } from '@stellar/stellar-sdk';
 
-import * as utils from '@trezor/blockchain-link-utils/src/stellar';
-import { BigNumber } from '@trezor/utils/src/bigNumber';
-import { CustomError } from '@trezor/blockchain-link-types/src/constants/errors';
+import type { AccountInfo, Response, SubscriptionAccountInfo } from '@trezor/blockchain-link-types';
 import { MESSAGES, RESPONSES } from '@trezor/blockchain-link-types/src/constants';
-import type { Response, AccountInfo, SubscriptionAccountInfo } from '@trezor/blockchain-link-types';
+import { CustomError } from '@trezor/blockchain-link-types/src/constants/errors';
 import type * as MessageTypes from '@trezor/blockchain-link-types/src/messages';
+import * as utils from '@trezor/blockchain-link-utils/src/stellar';
 import { getSuiteVersion } from '@trezor/env-utils';
+import { BigNumber } from '@trezor/utils/src/bigNumber';
 
 import { BaseWorker, CONTEXT, ContextType } from '../baseWorker';
 

@@ -22,10 +22,10 @@ const getFeeLabel = (networkType: NetworkType) => {
     switch (networkType) {
         case 'ethereum':
             return 'MAX_FEE';
-        case 'solana':
-            return 'EXPECTED_FEE';
         case 'stellar':
             return 'MAX_FEE';
+        case 'solana':
+            return 'EXPECTED_FEE';
         default:
             return 'FEE';
     }
@@ -94,6 +94,10 @@ const getOutputTitle = (
             );
         case 'opreturn':
             return <Translation id="OP_RETURN" />;
+        case 'memo':
+            return <Translation id="MEMO_TEXT" />;
+        case 'timebounds':
+            return <Translation id="TIME_BOUNDS" />;
         default: {
             const _unhandledCase: never = type;
             throw new Error(`Unhandled output type: ${_unhandledCase}`);
@@ -204,6 +208,8 @@ const getOutputLines = (
         case 'opreturn':
         case 'destination-tag':
         case 'locktime':
+        case 'timebounds':
+        case 'memo':
             return [
                 {
                     id: type,
@@ -218,29 +224,6 @@ const getOutputLines = (
                     label: <Translation id="AMOUNT" />,
                     value,
                     type: 'amount',
-                    id: 'opreturn',
-                    label: <Translation id="OP_RETURN" />,
-                    value: outputValue,
-                    plainValue: true,
-                },
-            ];
-            // TODO(stellar): fix me
-        } else if (type === 'timebounds') {
-            outputLines = [
-                {
-                    id: 'timebounds',
-                    label: <Translation id="TIME_BOUNDS" />,
-                    value: outputValue,
-                    plainValue: true,
-                },
-            ];
-        } else if (type === 'memo') {
-            outputLines = [
-                {
-                    id: 'memo',
-                    label: <Translation id="MEMO_TEXT" />,
-                    value: outputValue,
-                    plainValue: true,
                 },
             ];
         default: {

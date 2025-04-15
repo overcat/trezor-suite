@@ -139,7 +139,7 @@ const STELLAR_FEE_INFO: FeeInfoWithLevels = {
     minFee: 100, // 0.00001 XLM
     maxFee: 10000000, // 1 XLM
     dustLimit: -1, // unknown/unused
-}
+};
 
 const MISC_FEE_LEVELS: Record<string, FeeInfoWithLevels> = {
     xrp: RIPPLE_FEE_INFO,

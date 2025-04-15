@@ -6,4 +6,11 @@ import StellarWorker from '@trezor/blockchain-link/src/workers/stellar';
 
 const ElectrumWorker = undefined;
 
-export { BlockbookWorker, RippleWorker, BlockfrostWorker, ElectrumWorker, SolanaWorker, StellarWorker };
+export {
+    BlockbookWorker,
+    RippleWorker,
+    BlockfrostWorker,
+    ElectrumWorker,
+    SolanaWorker,
+    StellarWorker,
+};

@@ -13,4 +13,11 @@ const SolanaWorker: WorkerAsyncImporter = () =>
     ).then(w => w.default());
 const ElectrumWorker = undefined;
 
-export { BlockbookWorker, RippleWorker, BlockfrostWorker, ElectrumWorker, SolanaWorker, StellarWorker };
+export {
+    BlockbookWorker,
+    RippleWorker,
+    BlockfrostWorker,
+    ElectrumWorker,
+    SolanaWorker,
+    StellarWorker,
+};

@@ -1,7 +1,7 @@
-import { BigNumber } from '@trezor/utils/src/bigNumber';
 import { formatNetworkAmount } from '@suite-common/wallet-utils';
-import { STELLAR_RESERVE_INFO_URL } from '@trezor/urls';
 import { Banner } from '@trezor/components';
+import { STELLAR_RESERVE_INFO_URL } from '@trezor/urls';
+import { BigNumber } from '@trezor/utils/src/bigNumber';
 
 import { Translation } from 'src/components/suite';
 import type { Account } from 'src/types/wallet/index';

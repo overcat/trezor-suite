@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 import { Button, Tooltip } from '@trezor/components';
 
-import { useSendFormContext } from 'src/hooks/wallet';
 import { Translation } from 'src/components/suite';
+import { useSendFormContext } from 'src/hooks/wallet';
 
 import { StellarMemo } from './StellarMemo';
 import { OnOffSwitcher } from '../OnOffSwitcher';
@@ -41,10 +41,7 @@ export const StellarOptions = () => {
         <Wrapper>
             <Left>
                 {!memoEnabled && (
-                    <Tooltip
-                        content={<Translation id="MEMO_TOOLTIP" />}
-                        cursor="pointer"
-                    >
+                    <Tooltip content={<Translation id="MEMO_TOOLTIP" />} cursor="pointer">
                         <StyledButton
                             variant="tertiary"
                             size="small"

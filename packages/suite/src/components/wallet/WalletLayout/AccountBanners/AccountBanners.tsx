@@ -17,10 +17,10 @@ import { ContextMessage } from './ContextMessage';
 import { DeviceUnavailable } from './DeviceUnavailable';
 import { EvmExplanationBanner } from './EvmExplanationBanner';
 import { StakingBanner } from './StakingBanner';
+import { StellarReserveBanner } from './StellarReserveBanner';
 import { TaprootBanner } from './TaprootBanner';
 import { TorDisconnected } from './TorDisconnected';
 import { XRPReserve } from './XRPReserve';
-import { StellarReserveBanner } from './StellarReserveBanner';
 
 type AccountBannersProps = {
     account?: Account;

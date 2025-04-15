@@ -148,14 +148,13 @@ export const BasicTxDetails = ({
                 </Item>
 
                 {/* Stellar */}
-                {tx.stellarSpecific &&
-                    (
-                        <>
-                            <Item label={<Translation id="TR_OPERATION_ID" />} iconName="receipt">
-                                {tx.stellarSpecific.operationId}
-                            </Item>
-                        </>
-                    )}
+                {tx.stellarSpecific && (
+                    <>
+                        <Item label={<Translation id="TR_OPERATION_ID" />} iconName="receipt">
+                            {tx.stellarSpecific.operationId}
+                        </Item>
+                    </>
+                )}
 
                 {/* Fee level */}
                 {network.networkType === 'bitcoin' && (

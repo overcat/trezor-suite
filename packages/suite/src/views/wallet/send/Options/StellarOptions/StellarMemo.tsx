@@ -1,10 +1,10 @@
-import { Input, Icon } from '@trezor/components';
-import { getInputState } from '@suite-common/wallet-utils';
 import { formInputsMaxLength } from '@suite-common/validators';
+import { getInputState } from '@suite-common/wallet-utils';
+import { Icon, Input } from '@trezor/components';
 
 import { Translation } from 'src/components/suite';
-import { useSendFormContext } from 'src/hooks/wallet';
 import { useTranslation } from 'src/hooks/suite';
+import { useSendFormContext } from 'src/hooks/wallet';
 
 interface StellarMemoProps {
     close: () => void;

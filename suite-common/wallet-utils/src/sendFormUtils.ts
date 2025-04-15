@@ -261,7 +261,7 @@ const mapNetworkTypeToFeeUnits: Record<NetworkType, string> = {
     ethereum: 'Gwei',
     ripple: 'Drops',
     solana: 'Lamports',
-    stellar: 'Stroops'
+    stellar: 'Stroops',
 };
 
 export const getFeeUnits = (networkType: NetworkType) => mapNetworkTypeToFeeUnits[networkType];
