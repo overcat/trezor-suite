@@ -140,6 +140,7 @@ export const BasicTxDetails = ({
 
                 {/* TX ID */}
                 <Item label={<Translation id="TR_TXID" />} iconName="fingerprint">
+                    {/* TODO(stellar): use `networkType` instead. */}
                     <IOAddress
                         txAddress={tx.symbol === 'xlm' ? tx.txid.split('#')[0] : tx.txid}
                         explorerUrl={explorerUrl}
