@@ -41,7 +41,7 @@ export interface FormState {
     ethereumAdjustGasLimit?: string; // if used, final gas limit = estimated limit * ethereumAdjustGasLimit
     rippleDestinationTag?: string;
     stellarMemo?: string; // Currently, we only need to support Text Memo, which I believe is sufficient to meet the needs of the vast majority of users.
-    // stellarDestinationActivated?: boolean;
+    stellarDestinationActivated?: boolean;
     rbfParams?: RbfTransactionParams;
     isCoinControlEnabled: boolean;
     hasCoinControlBeenOpened: boolean;

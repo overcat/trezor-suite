@@ -601,22 +601,21 @@ export const enhancePrecomposedTransactionThunk = createThunk<
                 .catch(() => false);
         }
 
-        // if (selectedAccount.networkType === 'stellar') {
-        //     // If the destination account is not activated, we need to construct a createAccount transaction,
-        //     // otherwise we use a payment transaction.
-        //     const destinationResponse = await TrezorConnect.getAccountInfo({
-        //         descriptor: formValues.outputs[0].address,
-        //         coin: 'xlm',
-        //         suppressBackupWarning: true,
-        //     });
-        //     let destinationActivated = false;
-        //     if (destinationResponse.success && destinationResponse.payload.balance !== '0') {
-        //         destinationActivated = true;
-        //     }
+        if (selectedAccount.networkType === 'stellar') {
+            // If the destination account is not activated, we need to construct a createAccount transaction,
+            // otherwise we use a payment transaction.
+            const destinationResponse = await TrezorConnect.getAccountInfo({
+                descriptor: formValues.outputs[0].address,
+                coin: 'xlm',
+                suppressBackupWarning: true,
+            });
+            let destinationActivated = false;
+            if (destinationResponse.success && destinationResponse.payload.balance !== '0') {
+                destinationActivated = true;
+            }
 
-        //     (enhancedPrecomposedTransaction as PrecomposedTransactionStellar).destinationActivated =
-        //         destinationActivated;
-        // }
+            formValues.stellarDestinationActivated = destinationActivated;
+        }
 
         // store formValues and transactionInfo in send reducer to be used by TransactionReviewModal
         dispatch(

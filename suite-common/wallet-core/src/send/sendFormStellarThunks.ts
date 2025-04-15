@@ -1,9 +1,9 @@
 import {
     Account,
-    // Asset,
+    Asset,
     Memo,
     Networks,
-    // Operation,
+    Operation,
     TransactionBuilder,
 } from '@stellar/stellar-sdk';
 
@@ -12,7 +12,6 @@ import {
     ExternalOutput,
     PrecomposedLevels,
     PrecomposedTransaction,
-    // PrecomposedTransactionStellar,
 } from '@suite-common/wallet-types';
 import {
     calculateMax,
@@ -202,7 +201,7 @@ export const composeStellarTransactionFeeLevelsThunk = createThunk<
 
 export const signStellarSendFormTransactionThunk = createThunk<
     { serializedTx: string },
-    SignTransactionThunkArguments & { precomposedTransaction: PrecomposedTransactionStellar },
+    SignTransactionThunkArguments,
     { rejectValue: SignTransactionError }
 >(
     `${SEND_MODULE_PREFIX}/signStellarSendFormTransactionThunk`,
@@ -227,22 +226,22 @@ export const signStellarSendFormTransactionThunk = createThunk<
             txBuilder.addMemo(Memo.text(formState.stellarMemo));
         }
 
-        // if (precomposedTransaction.destinationActivated) {
-        //     txBuilder.addOperation(
-        //         Operation.payment({
-        //             destination: formState.outputs[0].address,
-        //             asset: Asset.native(),
-        //             amount: formState.outputs[0].amount,
-        //         }),
-        //     );
-        // } else {
-        //     txBuilder.addOperation(
-        //         Operation.createAccount({
-        //             destination: formState.outputs[0].address,
-        //             startingBalance: formState.outputs[0].amount,
-        //         }),
-        //     );
-        // }
+        if (formState.stellarDestinationActivated) {
+            txBuilder.addOperation(
+                Operation.payment({
+                    destination: formState.outputs[0].address,
+                    asset: Asset.native(),
+                    amount: formState.outputs[0].amount,
+                }),
+            );
+        } else {
+            txBuilder.addOperation(
+                Operation.createAccount({
+                    destination: formState.outputs[0].address,
+                    startingBalance: formState.outputs[0].amount,
+                }),
+            );
+        }
 
         const transaction = txBuilder.build();
         const transformedTransaction = transformTransaction(selectedAccount.path, transaction);
