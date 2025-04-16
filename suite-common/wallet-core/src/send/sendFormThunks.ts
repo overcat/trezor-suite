@@ -53,17 +53,13 @@ import {
     selectSendSerializedTx,
 } from './sendFormReducer';
 import {
-    composeRippleTransactionFeeLevelsThunk,
-    signRippleSendFormTransactionThunk,
-} from './sendFormRippleThunks';
+    composeRippleStellarTransactionFeeLevelsThunk,
+    signRippleStellarSendFormTransactionThunk,
+} from './sendFormRippleStellarThunks';
 import {
     composeSolanaTransactionFeeLevelsThunk,
     signSolanaSendFormTransactionThunk,
 } from './sendFormSolanaThunks';
-import {
-    composeStellarTransactionFeeLevelsThunk,
-    signStellarSendFormTransactionThunk,
-} from './sendFormStellarThunks';
 import {
     ComposeActionContext,
     ComposeFeeLevelsError,
@@ -144,7 +140,7 @@ type CoinSpecificComposeResponse = ActionsFromAsyncThunk<
     | typeof composeEthereumTransactionFeeLevelsThunk
     | typeof composeCardanoTransactionFeeLevelsThunk
     | typeof composeSolanaTransactionFeeLevelsThunk
-    | typeof composeStellarTransactionFeeLevelsThunk
+    // TODO(stellar): why ripple is not included here?
 >;
 
 export const composeSendFormTransactionFeeLevelsThunk = createThunk<
@@ -169,9 +165,9 @@ export const composeSendFormTransactionFeeLevelsThunk = createThunk<
             response = await dispatch(
                 composeEthereumTransactionFeeLevelsThunk({ formState, composeContext }),
             );
-        } else if (networkType === 'ripple') {
+        } else if (networkType === 'ripple' || networkType == 'stellar') {
             response = await dispatch(
-                composeRippleTransactionFeeLevelsThunk({ formState, composeContext }),
+                composeRippleStellarTransactionFeeLevelsThunk({ formState, composeContext }),
             );
         } else if (networkType === 'cardano') {
             response = await dispatch(
@@ -180,10 +176,6 @@ export const composeSendFormTransactionFeeLevelsThunk = createThunk<
         } else if (networkType === 'solana') {
             response = await dispatch(
                 composeSolanaTransactionFeeLevelsThunk({ formState, composeContext }),
-            );
-        } else if (networkType === 'stellar') {
-            response = await dispatch(
-                composeStellarTransactionFeeLevelsThunk({ formState, composeContext }),
             );
         } else {
             const _exhaustiveCheck: never = networkType;
@@ -403,9 +395,8 @@ type CoinSpecificSignResponse = ActionsFromAsyncThunk<
     | typeof signBitcoinSendFormTransactionThunk
     | typeof signCardanoSendFormTransactionThunk
     | typeof signEthereumSendFormTransactionThunk
-    | typeof signRippleSendFormTransactionThunk
+    | typeof signRippleStellarSendFormTransactionThunk
     | typeof signSolanaSendFormTransactionThunk
-    | typeof signStellarSendFormTransactionThunk
 >;
 
 export const signTransactionThunk = createThunk<
