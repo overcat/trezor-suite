@@ -135,7 +135,7 @@ const SOLANA_FEE_INFO: FeeInfoWithLevels = {
 
 const STELLAR_FEE_INFO: FeeInfoWithLevels = {
     blockTime: -1, // unknown
-    defaultFees: [{ label: 'normal', feePerUnit: '12', blocks: -1 }],
+    defaultFees: [{ label: 'normal', feePerUnit: '100', blocks: -1 }],
     minFee: 100, // 0.00001 XLM
     maxFee: 10000000, // 1 XLM
     dustLimit: -1, // unknown/unused
