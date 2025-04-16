@@ -3,20 +3,12 @@ import { Horizon } from '@stellar/stellar-sdk';
 import type { Target, Transaction, TransactionDetail } from '@trezor/blockchain-link-types';
 import { BigNumber } from '@trezor/utils/src/bigNumber';
 
-const BASE_REVERSE = new BigNumber('5000000'); // 0.5 XLM, https://developers.stellar.org/docs/learn/fundamentals/lumens#base-reserves
 const ONE = new BigNumber('10000000');
-export const MINIMUM_RESERVE = ONE;
 
 export const toStroops = (value: string) => {
     const amount = new BigNumber(value).times(ONE);
 
     return amount.toString();
-};
-
-export const calculateReserve = (subentryCount: number): BigNumber => {
-    const subentryReverse = BASE_REVERSE.times(subentryCount);
-
-    return MINIMUM_RESERVE.plus(subentryReverse);
 };
 
 const isoToTimestamp = (isoDate: string): number => {

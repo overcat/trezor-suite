@@ -10,6 +10,11 @@ import { BigNumber } from '@trezor/utils/src/bigNumber';
 
 import { BaseWorker, CONTEXT, ContextType } from '../baseWorker';
 
+const BASE_INFO = {
+    BASE_REVERSE: new BigNumber('5000000'), // 0.5 XLM
+    MINIMUM_REVERSE: new BigNumber('10000000'), // 1 XLM
+};
+
 type Context = ContextType<Horizon.Server>;
 type Request<T> = T & Context;
 
@@ -22,6 +27,10 @@ const getInfo = async (request: Request<MessageTypes.GetInfo>, isTestnet: boolea
         throw new CustomError('worker_invalid_horizon_response');
     }
 
+    const latestLedgerRecord = latestLedgerInfo.records[0];
+    BASE_INFO.BASE_REVERSE = new BigNumber(latestLedgerRecord.base_reserve_in_stroops);
+    BASE_INFO.MINIMUM_REVERSE = BASE_INFO.BASE_REVERSE.times(2);
+
     const serverInfo = {
         url: api.serverURL.toString(),
         name: 'Stellar',
@@ -30,8 +39,8 @@ const getInfo = async (request: Request<MessageTypes.GetInfo>, isTestnet: boolea
         testnet: isTestnet,
         version: horizonServerInfo.horizon_version,
         decimals: 7,
-        blockHeight: latestLedgerInfo.records[0].sequence,
-        blockHash: latestLedgerInfo.records[0].hash,
+        blockHeight: latestLedgerRecord.sequence,
+        blockHash: latestLedgerRecord.hash,
     };
 
     return {
@@ -59,7 +68,7 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
         misc: {
             // default misc
             stellarSequence: '0',
-            reserve: utils.MINIMUM_RESERVE.toString(),
+            reserve: BASE_INFO.MINIMUM_REVERSE.toString(),
         },
     };
 
@@ -76,7 +85,10 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
     }
 
     // Account is not empty, we can fill the account object with the data
-    const reserve = utils.calculateReserve(info.subentry_count);
+    // https://developers.stellar.org/docs/learn/fundamentals/lumens#minimum-balance
+    const reserve = BASE_INFO.MINIMUM_REVERSE.plus(
+        BASE_INFO.BASE_REVERSE.times(info.subentry_count),
+    );
     account.misc = {
         stellarSequence: info.sequence,
         reserve: reserve.toString(),
