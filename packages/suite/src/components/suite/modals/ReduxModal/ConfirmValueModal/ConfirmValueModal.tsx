@@ -32,7 +32,7 @@ import { useDispatch, useSelector } from 'src/hooks/suite';
 import { selectLabelingDataForSelectedAccount } from 'src/reducers/suite/metadataReducer';
 import { selectIsActionAbortable } from 'src/reducers/suite/suiteReducer';
 import { ThunkAction } from 'src/types/suite';
-import { DESTINATION_TAG_GUIDE_PATH } from 'src/views/wallet/send/Options/RippleOptions/DestinationTag';
+import { DESTINATION_TAG_GUIDE_PATH } from 'src/views/wallet/send/Options/RippleStellarOptions/DestinationTag';
 
 export type ConfirmValueModalProps = Pick<NewModalProps, 'onCancel' | 'heading'> & {
     account?: Account;

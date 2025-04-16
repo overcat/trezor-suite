@@ -14,7 +14,7 @@ import { Address } from './Address';
 import { Amount } from './Amount/Amount';
 import { OpReturn } from './OpReturn';
 import { TokenSelect } from './TokenSelect/TokenSelect';
-import { DestinationTag } from '../Options/RippleOptions/DestinationTag';
+import { DestinationTag } from '../Options/RippleStellarOptions/DestinationTag';
 
 const Container = styled.div<{ $height: number }>`
     height: ${({ $height }) => ($height ? `${$height}px` : 'auto')};
@@ -31,7 +31,7 @@ export const Outputs = ({ disableAnim }: OutputsProps) => {
 
     const {
         outputs,
-        account: { symbol, networkType },
+        account: { symbol },
     } = useSendFormContext();
 
     const ref = useRef<HTMLDivElement>(null);
@@ -91,8 +91,7 @@ export const Outputs = ({ disableAnim }: OutputsProps) => {
                                                 outputsCount={outputs.length}
                                             />
                                             <Amount output={outputs[index]} outputId={index} />
-                                            {networkType === 'ripple' && <DestinationTag />}
-                                            {/* TODO(stellar): add same logic? */}
+                                            <DestinationTag networkSymbol={symbol} />
                                         </Column>
                                     )}
                                 </Card>

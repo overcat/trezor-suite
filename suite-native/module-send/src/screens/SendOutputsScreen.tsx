@@ -50,13 +50,13 @@ import { constructFormDraft } from '../utils';
 
 const getDefaultValues = ({
     tokenContract,
-    isRippleDestinationTagEnabled,
+    isDestinationTagEnabled,
 }: {
     tokenContract?: TokenAddress;
-    isRippleDestinationTagEnabled: boolean;
+    isDestinationTagEnabled: boolean;
 }): Readonly<SendOutputsFormValues> =>
     ({
-        isRippleDestinationTagEnabled,
+        isDestinationTagEnabled,
         outputs: [
             {
                 amount: '',
@@ -126,7 +126,7 @@ export const SendOutputsScreen = ({
         },
         defaultValues: getDefaultValues({
             tokenContract,
-            isRippleDestinationTagEnabled: network?.networkType === 'ripple',
+            isDestinationTagEnabled: network?.networkType === 'ripple',
         }),
     });
 
@@ -218,7 +218,7 @@ export const SendOutputsScreen = ({
             if (sendFormDraft?.outputs) {
                 // TODO: use reset() instead of setValue()
                 setValue('outputs', sendFormDraft.outputs, { shouldTouch: true });
-                setValue('rippleDestinationTag', sendFormDraft.rippleDestinationTag, {
+                setValue('destinationTag', sendFormDraft.destinationTag, {
                     shouldTouch: true,
                 });
                 // The max amount is equal to the total token balance for tokens. (fee is paid in mainnet currency)

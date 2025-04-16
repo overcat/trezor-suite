@@ -220,8 +220,8 @@ export const signRippleSendFormTransactionThunk = createThunk<
             ),
         };
 
-        if (formState.rippleDestinationTag) {
-            payment.destinationTag = parseInt(formState.rippleDestinationTag, 10);
+        if (formState.destinationTag) {
+            payment.destinationTag = parseInt(formState.destinationTag, 10);
         }
 
         const response = await TrezorConnect.rippleSignTransaction({

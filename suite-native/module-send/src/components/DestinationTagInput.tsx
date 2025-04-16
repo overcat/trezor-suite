@@ -29,8 +29,8 @@ export const DestinationTagInput = () => {
     const { applyStyle } = useNativeStyles();
 
     const [isInputDisplayed, setIsInputDisplayed] = useState(true);
-    const destinationTagFieldName: SendFieldName = 'rippleDestinationTag';
-    const isRippleDestinationTagEnabledFieldName: SendFieldName = 'isRippleDestinationTagEnabled';
+    const destinationTagFieldName: SendFieldName = 'destinationTag';
+    const isDestinationTagEnabledFieldName: SendFieldName = 'isDestinationTagEnabled';
 
     const debounce = useDebounce();
 
@@ -38,13 +38,13 @@ export const DestinationTagInput = () => {
 
     const handleShowInputChange = () => {
         if (!isInputDisplayed) {
-            setValue(isRippleDestinationTagEnabledFieldName, true);
+            setValue(isDestinationTagEnabledFieldName, true);
             // Wait for input element to be mounted.
             setTimeout(() => {
                 inputRef.current?.focus();
             });
         } else {
-            setValue(isRippleDestinationTagEnabledFieldName, false);
+            setValue(isDestinationTagEnabledFieldName, false);
         }
         trigger(destinationTagFieldName);
         setIsInputDisplayed(!isInputDisplayed);

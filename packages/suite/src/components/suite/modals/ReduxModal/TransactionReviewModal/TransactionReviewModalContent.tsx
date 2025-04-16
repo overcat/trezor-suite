@@ -208,9 +208,9 @@ export const TransactionReviewModalContent = ({
     const stakeType = isStakeForm(precomposedForm)
         ? precomposedForm.stakeType
         : outputs
-              .filter(output => output.type === 'data')
-              .map(output => getTxStakeNameByDataHex(output?.value))
-              .find(type => type) || null;
+            .filter(output => output.type === 'data')
+            .map(output => getTxStakeNameByDataHex(output?.value))
+            .find(type => type) || null;
 
     const onCancel = () => {
         dispatch(modalActions.onCancel());
@@ -260,7 +260,7 @@ export const TransactionReviewModalContent = ({
                 bitcoinLockTime: !!options.includes('bitcoinLockTime'),
                 ethereumData: !!options.includes('ethereumData'),
                 ethereumNonce: !!options.includes('ethereumNonce'),
-                rippleDestinationTag: !!options.includes('rippleDestinationTag'),
+                destinationTag: !!options.includes('destinationTag'),
                 selectedFee: selectedFee || 'normal',
                 isCoinControlEnabled: precomposedForm.isCoinControlEnabled,
                 hasCoinControlBeenOpened: precomposedForm.hasCoinControlBeenOpened,

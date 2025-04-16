@@ -100,7 +100,7 @@ const constructOldFlow = ({
     const { networkType } = account;
 
     const hasBitcoinLockTime = 'bitcoinLockTime' in precomposedForm;
-    const hasRippleDestinationTag = 'rippleDestinationTag' in precomposedForm;
+    const hasDestinationTag = 'destinationTag' in precomposedForm;
 
     const isBumpFeeRbf = isRbfBumpFeeTransaction(precomposedTx);
 
@@ -186,10 +186,10 @@ const constructOldFlow = ({
         // 2. fee
         // 3. output
         outputs.unshift({ type: 'fee', value: precomposedTx.fee });
-        if (hasRippleDestinationTag && precomposedForm.rippleDestinationTag) {
+        if (hasDestinationTag && precomposedForm.destinationTag) {
             outputs.unshift({
                 type: 'destination-tag',
-                value: precomposedForm.rippleDestinationTag,
+                value: precomposedForm.destinationTag,
             });
         }
     } else if (!isBumpFeeRbf || !precomposedTx.useNativeRbf) {
@@ -213,8 +213,7 @@ const constructNewFlow = ({
     const { networkType } = account;
 
     const hasBitcoinLockTime = 'bitcoinLockTime' in precomposedForm;
-    const hasRippleDestinationTag = 'rippleDestinationTag' in precomposedForm;
-    const hasStellarMemo = 'stellarMemo' in precomposedForm;
+    const hasDestinationTag = 'destinationTag' in precomposedForm;
 
     if (networkType === 'stellar') {
         // stellar displays requests on device:
@@ -231,8 +230,8 @@ const constructNewFlow = ({
             {
                 type: 'memo',
                 value:
-                    hasStellarMemo && precomposedForm.stellarMemo
-                        ? precomposedForm.stellarMemo
+                    hasDestinationTag && precomposedForm.destinationTag
+                        ? precomposedForm.destinationTag
                         : 'No memo set! Many exchanges require a memo when depositing.',
             },
         );
@@ -346,14 +345,10 @@ const constructNewFlow = ({
         outputs.push({ type: 'locktime', value: precomposedForm.bitcoinLockTime });
     }
 
-    if (
-        networkType === 'ripple' &&
-        hasRippleDestinationTag &&
-        precomposedForm.rippleDestinationTag
-    ) {
+    if (networkType === 'ripple' && hasDestinationTag && precomposedForm.destinationTag) {
         outputs.unshift({
             type: 'destination-tag',
-            value: precomposedForm.rippleDestinationTag,
+            value: precomposedForm.destinationTag,
         });
     }
 

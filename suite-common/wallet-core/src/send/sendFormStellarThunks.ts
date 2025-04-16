@@ -222,8 +222,8 @@ export const signStellarSendFormTransactionThunk = createThunk<
             networkPassphrase: Networks.PUBLIC,
         }).setTimebounds(0, 0);
 
-        if (formState.stellarMemo) {
-            txBuilder.addMemo(Memo.text(formState.stellarMemo));
+        if (formState.destinationTag) {
+            txBuilder.addMemo(Memo.text(formState.destinationTag));
         }
 
         if (formState.stellarDestinationActivated) {

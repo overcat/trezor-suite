@@ -5655,7 +5655,7 @@ export default defineMessages({
     },
     DESTINATION_TAG_BANNER_SEND: {
         defaultMessage:
-            'Online exchanges require this to identify your account. Get your memo/destination tag from your Ripple account on your online exchange.',
+            'Online exchanges require this to identify your account. Get your memo/destination tag from your {network} account on your online exchange.',
         id: 'DESTINATION_TAG_BANNER_SEND',
     },
     DESTINATION_TAG_BANNER_RECEIVE: {
