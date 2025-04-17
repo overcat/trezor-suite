@@ -32,7 +32,7 @@
   "DATA_NOT_SET": "Data not set",
   "DATA_NOT_VALID_HEX": "Not a valid hex",
   "DESTINATION_TAG": "Memo/Destination tag",
-  "DESTINATION_TAG_BANNER_RECEIVE": "Trezor doesn’t require a memo or destination tag to receive XRP. Enter any value in the memo/destination tag field to complete your transfer. <a>Learn more</a>",
+  "DESTINATION_TAG_BANNER_RECEIVE": "Trezor doesn’t require a memo or destination tag to receive {coin}. Enter any value in the memo/destination tag field to complete your transfer. <a>Learn more</a>",
   "DESTINATION_TAG_BANNER_SEND": "Online exchanges require this to identify your account. Get your memo/destination tag from your {network} account on your online exchange.",
   "DESTINATION_TAG_GUIDE_LINK": "What is this?",
   "DESTINATION_TAG_IS_NOT_NUMBER": "Memo/Destination tag isn't a number",

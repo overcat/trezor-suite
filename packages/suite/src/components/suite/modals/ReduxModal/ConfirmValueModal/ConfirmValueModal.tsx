@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 
 import { notificationsActions } from '@suite-common/toast-notifications';
+import { getNetworkDisplaySymbol } from '@suite-common/wallet-config';
 import { selectSelectedDevice, selectSelectedDeviceLabelOrName } from '@suite-common/wallet-core';
 import { Account } from '@suite-common/wallet-types';
 import {
@@ -146,7 +147,7 @@ export const ConfirmValueModal = ({
                         </Banner>
                     )}
                     {/* TODO(stellar): add same logic? */}
-                    {account?.networkType === 'ripple' && (
+                    {(account?.networkType === 'ripple' || account?.networkType === 'stellar') && (
                         <Banner variant="info" icon="info">
                             <Translation
                                 id="DESTINATION_TAG_BANNER_RECEIVE"
@@ -161,6 +162,7 @@ export const ConfirmValueModal = ({
                                             {chunks}
                                         </Link>
                                     ),
+                                    coin: getNetworkDisplaySymbol(account.symbol)
                                 }}
                             />
                         </Banner>

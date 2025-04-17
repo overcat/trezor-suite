@@ -5660,7 +5660,7 @@ export default defineMessages({
     },
     DESTINATION_TAG_BANNER_RECEIVE: {
         defaultMessage:
-            'Trezor doesn’t require a memo or destination tag to receive XRP. Enter any value in the memo/destination tag field to complete your transfer. <a>Learn more</a>',
+            'Trezor doesn’t require a memo or destination tag to receive {coin}. Enter any value in the memo/destination tag field to complete your transfer. <a>Learn more</a>',
         id: 'DESTINATION_TAG_BANNER_RECEIVE',
     },
     DESTINATION_TAG_NOT_SET: {
