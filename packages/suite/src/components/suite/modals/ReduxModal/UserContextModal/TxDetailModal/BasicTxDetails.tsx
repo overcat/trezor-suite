@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { fromWei } from 'web3-utils';
 
-import { Network } from '@suite-common/wallet-config';
+import { Network, getNetworkType } from '@suite-common/wallet-config';
 import { getFeeRate, getTxIcon, isPending } from '@suite-common/wallet-utils';
 import {
     Box,
@@ -140,9 +140,8 @@ export const BasicTxDetails = ({
 
                 {/* TX ID */}
                 <Item label={<Translation id="TR_TXID" />} iconName="fingerprint">
-                    {/* TODO(stellar): use `networkType` instead. */}
                     <IOAddress
-                        txAddress={tx.symbol === 'xlm' ? tx.txid.split('#')[0] : tx.txid}
+                        txAddress={getNetworkType(tx.symbol) === 'stellar' ? tx.txid.split('#')[0] : tx.txid}
                         explorerUrl={explorerUrl}
                         explorerUrlQueryString={explorerUrlQueryString}
                     />
