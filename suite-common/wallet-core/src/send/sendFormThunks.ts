@@ -140,7 +140,6 @@ type CoinSpecificComposeResponse = ActionsFromAsyncThunk<
     | typeof composeEthereumTransactionFeeLevelsThunk
     | typeof composeCardanoTransactionFeeLevelsThunk
     | typeof composeSolanaTransactionFeeLevelsThunk
-    // TODO(stellar): why ripple is not included here?
 >;
 
 export const composeSendFormTransactionFeeLevelsThunk = createThunk<
