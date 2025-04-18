@@ -454,11 +454,15 @@ export const signTransactionThunk = createThunk<
             } else if (networkType === 'ethereum') {
                 response = await dispatch(signEthereumSendFormTransactionThunk(thunkArguments));
             } else if (networkType === 'ripple') {
-                response = await dispatch(signRippleSendFormTransactionThunk(thunkArguments));
+                response = await dispatch(
+                    signRippleStellarSendFormTransactionThunk(thunkArguments),
+                );
             } else if (networkType === 'solana') {
                 response = await dispatch(signSolanaSendFormTransactionThunk(thunkArguments));
             } else if (networkType === 'stellar') {
-                response = await dispatch(signStellarSendFormTransactionThunk(thunkArguments));
+                response = await dispatch(
+                    signRippleStellarSendFormTransactionThunk(thunkArguments),
+                );
             }
         }
 
