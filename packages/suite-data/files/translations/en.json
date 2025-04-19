@@ -1811,6 +1811,7 @@
   "TR_STEP": "Step {number}",
   "TR_STEP_OF_TOTAL": "Step {index} of {total}",
   "TR_STILL_DONT_SEE_YOUR_TREZOR": "Don’t see your Trezor?",
+  "TR_STELLAR_FEE_DESC": "The maximum fee you're willing to pay for the transaction. You'll only pay what's necessary — typically the minimum fee during light network traffic. Higher fees help prioritize your transaction during network congestion.",
   "TR_STOP": "Stop",
   "TR_STOPPING": "Stopping",
   "TR_STORAGE_CLEARED": "Storage cleared",

@@ -9130,6 +9130,11 @@ export default defineMessages({
         defaultMessage:
             'Network fees are payments made to validators for processing transactions. Paying a higher fee can speed up confirmation times. {br}Rent is a charge for storing data on the blockchain. The cost is based on the size of the account’s storage.',
     },
+    TR_STELLAR_FEE_DESC: {
+        id: 'TR_STELLAR_FEE_DESC',
+        defaultMessage:
+            "The maximum fee you're willing to pay for the transaction. You'll only pay what's necessary — typically the minimum fee during light network traffic. Higher fees help prioritize your transaction during network congestion.",
+    },
     TR_TRANSACTION_FEE_DESC: {
         id: 'TR_TRANSACTION_FEE_DESC',
         defaultMessage:

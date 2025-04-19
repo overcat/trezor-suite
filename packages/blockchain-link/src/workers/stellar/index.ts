@@ -77,7 +77,7 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
     try {
         info = await api.accounts().accountId(payload.descriptor).call();
     } catch {
-        // TODO(stellar): handle errors, if not 404, raise an exception?
+        // Account not found, we set the account as empty
         return {
             type: RESPONSES.GET_ACCOUNT_INFO,
             payload: account,
