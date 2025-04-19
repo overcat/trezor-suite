@@ -19,7 +19,8 @@ interface DestinationTagProps {
     networkSymbol: NetworkSymbol;
 }
 
-// TODO(stellar): update https://trezor.io/learn/a/destination-tags
+// TODO(stellar): update https://trezor.io/learn/a/destination-tags, include stellar
+// > change `only XRP is supported directly within Trezor Suite.`
 export const DestinationTag = ({ networkSymbol }: DestinationTagProps) => {
 
     const {
@@ -35,8 +36,6 @@ export const DestinationTag = ({ networkSymbol }: DestinationTagProps) => {
     const { openNodeById } = useGuideOpenNode();
 
     const { networkType, name } = getNetwork(networkSymbol);
-    console.log("overcat debug, networkType", networkType);
-    console.log("overcat debug, name", name);
 
     if (networkType !== 'ripple' && networkType !== 'stellar') {
         return null;

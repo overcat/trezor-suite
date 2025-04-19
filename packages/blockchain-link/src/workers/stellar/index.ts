@@ -330,15 +330,14 @@ const pushTransaction = async ({ connect, payload }: Request<MessageTypes.PushTr
     const parsedTx = new StellarTransaction(base64EncodedTx, Networks.PUBLIC);
     try {
         // TODO(stellar): send the transaction asynchronously?
-        const resp = await api.submitTransaction(parsedTx);
+        const resp = await api.submitAsyncTransaction(parsedTx);
 
         return {
             type: RESPONSES.PUSH_TRANSACTION,
             payload: resp.hash,
         } as const;
-    } catch (error) {
-        console.error(error);
-        throw new Error("Transaction wasn't successful");
+    } catch {
+        throw new Error('Submit transaction failed');
     }
 };
 

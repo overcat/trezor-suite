@@ -122,6 +122,11 @@ export const transformTransaction = async (
             break;
     }
 
+    // TODO(stellar): https://github.com/stellar/js-stellar-sdk/pull/1168
+    if (!rawOp.transaction_successful) {
+        type = 'failed';
+    }
+
     return {
         type,
         txid: `${rawOp.transaction_hash}#${rawOp.id}`, // A little bit of hack to make txid unique.
