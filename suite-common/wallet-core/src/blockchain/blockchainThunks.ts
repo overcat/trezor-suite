@@ -133,12 +133,30 @@ export const subscribeBlockchainThunk = createThunk(
             await TrezorConnect.blockchainSubscribe({ coin: symbol, blocks });
         }
 
+        const selectedAccounts = selectAccounts(getState());
+        const networkAccounts = findAccountsByNetwork(symbol, selectedAccounts);
         // do NOT subscribe if there are no accounts
         // it leads to websocket disconnection
-        const accountsToSubscribe = findAccountsByNetwork(
-            symbol,
-            selectAccounts(getState()),
-        ).filter(a => isTrezorConnectBackendType(a.backendType)); // do not subscribe accounts with unsupported backend type
+        const accountsToSubscribe = networkAccounts.filter(a =>
+            isTrezorConnectBackendType(a.backendType),
+        ); // do not subscribe accounts with unsupported backend type
+
+        console.log('symbol', symbol);
+        console.log('allAccounts', selectedAccounts);
+        console.log('networkAccounts', networkAccounts);
+        console.log('accounts', accountsToSubscribe);
+        // OUTPUT:
+        // LOG  symbol xrp
+        // LOG  allAccounts []
+        // LOG  networkAccounts []
+        // LOG  accounts []
+        // ---------------------
+        // How to reproduce:
+        // Only enable Ripple tokens in the enabled coins, then run and observe the console.
+        // ---------------------
+        // Question:
+        // Why allAccounts and networkAccounts are empty? Shouldn't there be an XRP account here?
+
         if (!accountsToSubscribe.length) return;
 
         const paramsArray = useIdentities
