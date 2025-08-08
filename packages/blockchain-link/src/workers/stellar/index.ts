@@ -121,7 +121,13 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
         .toString();
 
     // Tokens balance
-    const tokenMetadata = await request.getTokenMetadata();
+    let tokenMetadata: TokenDetailByMint = {};
+    try {
+        tokenMetadata = await request.getTokenMetadata();
+    } catch (e) {
+        // If we fail to load token metadata, we log the error and continue without it
+        console.error('Failed to load Stellar token metadata:', e);
+    }
     account.tokens = info.balances
         .filter(
             balanceInfo =>
@@ -138,7 +144,7 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
                 contract,
                 balance: balance.toString(),
                 name: tokenMetadata[contract]?.name || balanceInfo.asset_code,
-                symbol: balanceInfo.asset_code,
+                symbol: tokenMetadata[contract]?.symbol || balanceInfo.asset_code,
                 decimals: utils.STELLAR_DECIMALS,
             };
         });
