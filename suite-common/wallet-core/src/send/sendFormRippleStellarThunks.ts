@@ -364,6 +364,16 @@ export const signRippleStellarSendFormTransactionThunk = createThunk<
             });
         }
 
+        // Log detailed error information for debugging
+        console.error('[signRippleStellarSendFormTransactionThunk] Sign transaction failed:', {
+            networkType: selectedAccount.networkType,
+            accountDescriptor: selectedAccount.descriptor,
+            accountSymbol: selectedAccount.symbol,
+            formState,
+            response: response.payload,
+            devicePath: device.path,
+        });
+
         // catch manual error from TransactionReviewModal
         return rejectWithValue({
             error: 'sign-transaction-failed',

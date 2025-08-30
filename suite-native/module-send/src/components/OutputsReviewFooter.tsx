@@ -172,6 +172,18 @@ export const OutputsReviewFooter = ({
             return;
         }
 
+        // Log detailed error information for debugging
+        console.error('[OutputsReviewFooter] Send transaction failed:', {
+            accountKey,
+            accountSymbol: account.symbol,
+            accountNetworkType: account.networkType,
+            tokenContract,
+            tokenSymbol,
+            error: sendResponse.error,
+            payload: sendResponse.payload,
+            formValues,
+        });
+
         showAlert({
             icon: 'warningCircle',
             title: (

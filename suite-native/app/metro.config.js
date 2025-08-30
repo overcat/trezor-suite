@@ -28,7 +28,8 @@ const config = {
         }),
     },
     resolver: {
-        unstable_enablePackageExports: false,
+        unstable_enablePackageExports: true,
+        unstable_conditionNames: ['browser', 'require', 'react-native'],
         blockList: [/libDev/],
         extraNodeModules: {
             // modules needed for trezor-connect
@@ -66,15 +67,6 @@ const config = {
                 // In future we will need JS implementation of Cardano libs or C++ implementation
                 return {
                     filePath: require.resolve('./cardanoPolyfills.js'),
-                    type: 'sourceFile',
-                };
-            }
-
-            if (moduleName === '@stellar/stellar-sdk/minimal') {
-                // Fix stellar-sdk minimal import for React Native
-                const rootNodeModulesPath = context.nodeModulesPaths[1];
-                return {
-                    filePath: rootNodeModulesPath + '/@stellar/stellar-sdk/lib/minimal/index.js',
                     type: 'sourceFile',
                 };
             }

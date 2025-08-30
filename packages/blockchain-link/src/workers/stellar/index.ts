@@ -295,6 +295,18 @@ const pushTransaction = async ({ connect, payload }: Request<MessageTypes.PushTr
             e?.response?.data?.extras?.result_codes?.transaction || 'unknown';
         const opResultCode: string =
             e?.response?.data?.extras?.result_codes?.operations?.[0] || 'unknown';
+        
+        // Log detailed error information for debugging
+        console.error('[Stellar pushTransaction] Transaction failed:', {
+            txResultCode,
+            opResultCode,
+            errorMessage: e?.message,
+            response: e?.response?.data,
+            status: e?.response?.status,
+            statusText: e?.response?.statusText,
+            fullError: e,
+        });
+        
         throw new Error(
             `transaction result code: ${txResultCode}, operation result code: ${opResultCode}`,
         );
