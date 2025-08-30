@@ -70,6 +70,15 @@ const config = {
                 };
             }
 
+            if (moduleName === '@stellar/stellar-sdk/minimal') {
+                // Fix stellar-sdk minimal import for React Native
+                const rootNodeModulesPath = context.nodeModulesPaths[1];
+                return {
+                    filePath: rootNodeModulesPath + '/@stellar/stellar-sdk/lib/minimal/index.js',
+                    type: 'sourceFile',
+                };
+            }
+
             if (process.env.IS_DETOX_BUILD && moduleName === '@trezor/connect') {
                 // Mock some Trezor Connect methods to avoid network flakiness during e2e tests.
                 return {

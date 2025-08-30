@@ -11,3 +11,9 @@ declare module 'tiny-worker' {
     }
     export = Worker;
 }
+
+declare module '@stellar/stellar-sdk/minimal' {
+    import { Horizon } from '@stellar/stellar-sdk';
+
+    export { Horizon };
+}

@@ -1,7 +1,6 @@
 import {
     Account,
     Asset,
-    Horizon,
     Memo,
     Networks,
     Operation,
@@ -9,6 +8,7 @@ import {
     TransactionBuilder,
     extractBaseAddress,
 } from '@stellar/stellar-sdk';
+import { Horizon } from '@stellar/stellar-sdk/minimal';
 
 import type {
     Target,

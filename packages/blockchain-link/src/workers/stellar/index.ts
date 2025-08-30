@@ -1,11 +1,13 @@
-import { Horizon, Networks, Transaction as StellarTransaction } from '@stellar/stellar-sdk';
+import { Networks, Transaction as StellarTransaction } from '@stellar/stellar-sdk';
+// See https://github.com/trezor/trezor-suite/pull/18996#discussion_r2107284968
+import { Horizon } from '@stellar/stellar-sdk/minimal';
 
 import type { AccountInfo, Response, TokenDetailByMint } from '@trezor/blockchain-link-types';
 import { MESSAGES, RESPONSES } from '@trezor/blockchain-link-types/src/constants';
 import { CustomError } from '@trezor/blockchain-link-types/src/constants/errors';
 import type * as MessageTypes from '@trezor/blockchain-link-types/src/messages';
 import * as utils from '@trezor/blockchain-link-utils/src/stellar';
-import { getSuiteVersion, isDesktop, isNative } from '@trezor/env-utils';
+import { getSuiteVersion } from '@trezor/env-utils';
 import { IntervalId } from '@trezor/type-utils';
 import { BigNumber, createLazy } from '@trezor/utils';
 
@@ -328,11 +330,7 @@ class StellarWorker extends BaseWorker<Horizon.Server> {
 
     async tryConnect(url: string): Promise<Horizon.Server> {
         const api = new Horizon.Server(url, {
-            headers: {
-                ...(isDesktop() || isNative()
-                    ? { 'User-Agent': `Trezor Suite ${getSuiteVersion()}` }
-                    : {}),
-            },
+            headers: { 'User-Agent': `Trezor Suite ${getSuiteVersion()}` },
         });
 
         if ((await api.root()).network_passphrase == Networks.TESTNET) {

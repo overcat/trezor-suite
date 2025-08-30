@@ -1,4 +1,5 @@
-import { Horizon, Keypair } from '@stellar/stellar-sdk';
+import { Keypair } from '@stellar/stellar-sdk';
+import { Horizon } from '@stellar/stellar-sdk/minimal';
 
 import { toStroops } from '@trezor/blockchain-link-utils/src/stellar';
 import * as utils from '@trezor/blockchain-link-utils/src/stellar';
