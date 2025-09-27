@@ -1,22 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SelectedAccountLoaded } from '@suite-common/wallet-types';
+import { getCoingeckoId } from '@suite-common/wallet-config';
+import { getContractAddressForNetworkSymbol } from '@suite-common/wallet-utils';
 import {
-    Card,
-    Table,
-    Row,
-    Column,
-    Text,
-    Button,
     AssetLogo,
-    Paragraph
+    Button,
+    Column,
+    Row,
+    Table,
+    Text
 } from '@trezor/components';
 import { spacings } from '@trezor/theme';
 
+import { openModal } from 'src/actions/suite/modalActions';
 import { Translation } from 'src/components/suite';
 import { useDispatch } from 'src/hooks/suite';
-import { openModal } from 'src/actions/suite/modalActions';
 import { getInactiveStellarTokens } from 'src/utils/wallet/stellarTokenUtils';
+
+import { NoTokens } from '../common/NoTokens';
+import { NoSearchResultsWrapped } from '../common/TokensTable/TokensTable';
 
 type InactiveToken = {
     contract: string;
@@ -31,15 +34,11 @@ interface InactiveTokensTableProps {
     searchQuery: string;
 }
 
-const NoInactiveTokens = () => (
-    <Paragraph margin={{ top: spacings.xxl, bottom: spacings.xxl }} align="center">
-        <Translation id="TR_NO_INACTIVE_TOKENS_FOUND" />
-    </Paragraph>
-);
 
 export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTokensTableProps) => {
     const dispatch = useDispatch();
     const { account } = selectedAccount;
+    const coingeckoId = getCoingeckoId(account.symbol);
     const [allInactiveTokens, setAllInactiveTokens] = useState<InactiveToken[]>([]);
     const [filteredTokens, setFilteredTokens] = useState<InactiveToken[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -92,115 +91,81 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
 
     // Only show for Stellar network
     if (account.symbol !== 'xlm') {
-        return (
-            <Card paddingType="none" overflow="hidden">
-                <NoInactiveTokens />
-            </Card>
-        );
+        return <NoTokens title={<Translation id="TR_NO_INACTIVE_TOKENS_FOUND" />} />;
     }
 
     if (isLoading) {
-        return (
-            <Card paddingType="none" overflow="hidden">
-                <Paragraph margin={{ top: spacings.xxl, bottom: spacings.xxl }} align="center">
-                    <Translation id="TR_LOADING" />
-                </Paragraph>
-            </Card>
-        );
+        return <NoTokens title={<Translation id="TR_LOADING" />} />;
+    }
+
+    if (filteredTokens.length === 0 && searchQuery) {
+        return <NoSearchResultsWrapped />;
+    }
+
+    if (filteredTokens.length === 0) {
+        return <NoTokens title={<Translation id="TR_NO_INACTIVE_TOKENS_FOUND" />} />;
     }
 
     return (
-        <Card paddingType="none" overflow="hidden">
-            {filteredTokens.length === 0 && searchQuery ? (
-                <Paragraph margin={{ top: spacings.xxl, bottom: spacings.xxl }} align="center">
-                    <Translation id="TR_NO_SEARCH_RESULTS" />
-                </Paragraph>
-            ) : filteredTokens.length === 0 ? (
-                <NoInactiveTokens />
-            ) : (
-                <Table
-                    margin={{ top: spacings.xs }}
-                    colWidths={[
-                        { minWidth: '200px', maxWidth: '250px' },
-                        { minWidth: '140px', maxWidth: '250px' },
-                        { minWidth: '120px', maxWidth: '150px' },
-                        { minWidth: '100px', maxWidth: '120px' },
-                    ]}
-                    isRowHighlightedOnHover
-                >
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.Cell>
-                                <Translation id="TR_TOKEN" />
-                            </Table.Cell>
-                            <Table.Cell>
-                                Issuer
-                            </Table.Cell>
-                            <Table.Cell>
-                                <Translation id="TR_CONTRACT_ADDRESS" />
-                            </Table.Cell>
-                            <Table.Cell align="end">
-                                Action
-                            </Table.Cell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {filteredTokens.map(token => (
-                            <Table.Row key={token.contract}>
-                                <Table.Cell>
-                                    <Row gap={spacings.xs}>
-                                        <AssetLogo
-                                            coingeckoId=""
-                                            placeholder={token.name || token.symbol}
-                                            contractAddress={token.contract}
-                                            size={24}
-                                            shouldTryToFetch={false}
-                                        />
-                                        <Column alignItems="flex-start">
-                                            <Text typographyStyle="body">{token.name}</Text>
-                                            <Text variant="tertiary" typographyStyle="hint">
-                                                {token.symbol}
-                                            </Text>
-                                        </Column>
-                                    </Row>
-                                </Table.Cell>
-                                <Table.Cell>
+        <Table
+            margin={{ top: spacings.xs }}
+            colWidths={[
+                { minWidth: '200px' },
+                { minWidth: '200px' },
+                { minWidth: '120px', maxWidth: '150px' },
+            ]}
+            isRowHighlightedOnHover
+        >
+            <Table.Header>
+                <Table.Row>
+                    <Table.Cell>
+                        <Translation id="TR_TOKEN" />
+                    </Table.Cell>
+                    <Table.Cell>
+                        Issuer
+                    </Table.Cell>
+                    <Table.Cell align="end">
+                        Action
+                    </Table.Cell>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {filteredTokens.map(token => (
+                    <Table.Row key={token.contract}>
+                        <Table.Cell>
+                            <Row gap={spacings.xs}>
+                                <AssetLogo
+                                    coingeckoId={coingeckoId || ''}
+                                    placeholder={token.name || token.symbol || 'token'}
+                                    contractAddress={getContractAddressForNetworkSymbol(account.symbol, token.contract)}
+                                    size={24}
+                                    shouldTryToFetch={true}
+                                />
+                                <Column alignItems="flex-start">
+                                    <Text typographyStyle="body">{token.name}</Text>
                                     <Text variant="tertiary" typographyStyle="hint">
-                                        {token.issuer || '—'}
+                                        {token.symbol}
                                     </Text>
-                                </Table.Cell>
-                                <Table.Cell>
-                                    <Row gap={spacings.xs}>
-                                        <Text
-                                            typographyStyle="hint"
-                                            variant="tertiary"
-                                            as="div"
-                                            isMonospaced
-                                        >
-                                            <div style={{
-                                                maxWidth: '120px',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                            }}>
-                                                {token.contract}
-                                            </div>
-                                        </Text>
-                                    </Row>
-                                </Table.Cell>
-                                <Table.Cell align="end">
-                                    <Button
-                                        size="small"
-                                        onClick={() => handleActivateToken(token)}
-                                        data-testid={`@token/activate-${token.symbol}`}
-                                    >
-                                        <Translation id="TR_ACTIVATE" />
-                                    </Button>
-                                </Table.Cell>
-                            </Table.Row>
-                        ))}
-                    </Table.Body>
-                </Table>
-            )}
-        </Card>
+                                </Column>
+                            </Row>
+                        </Table.Cell>
+                        <Table.Cell>
+                            <Text variant="tertiary" typographyStyle="hint">
+                                {token.issuer || '—'}
+                            </Text>
+                        </Table.Cell>
+                        <Table.Cell align="end">
+                            <Button
+                                size="small"
+                                onClick={() => handleActivateToken(token)}
+                                data-testid={`@token/activate-${token.symbol}`}
+                            >
+                                <Translation id="TR_ACTIVATE" />
+                            </Button>
+                        </Table.Cell>
+                    </Table.Row>
+                ))}
+            </Table.Body>
+        </Table>
     );
 };

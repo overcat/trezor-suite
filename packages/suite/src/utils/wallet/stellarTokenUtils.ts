@@ -1,6 +1,6 @@
 import { Account } from '@suite-common/wallet-types';
-import { getTokenMetadata } from '@trezor/blockchain-link-utils/src/stellar';
 import type { TokenDetailByMint } from '@trezor/blockchain-link-types';
+import { getTokenMetadata } from '@trezor/blockchain-link-utils/src/stellar';
 
 let stellarTokensCache: TokenDetailByMint | null = null;
 let cacheTimestamp: number = 0;
@@ -20,6 +20,7 @@ export const getStellarTokens = async (): Promise<TokenDetailByMint> => {
     try {
         stellarTokensCache = await getTokenMetadata();
         cacheTimestamp = now;
+
         return stellarTokensCache;
     } catch (error) {
         console.error('Failed to fetch Stellar tokens:', error);
@@ -27,6 +28,7 @@ export const getStellarTokens = async (): Promise<TokenDetailByMint> => {
         if (stellarTokensCache) {
             return stellarTokensCache;
         }
+
         // 否则返回空对象
         return {};
     }
@@ -54,6 +56,7 @@ export const getInactiveStellarTokensCount = async (account: Account): Promise<n
         return inactiveCount;
     } catch (error) {
         console.error('Error calculating inactive tokens count:', error);
+
         return 0;
     }
 };
@@ -86,6 +89,7 @@ export const getInactiveStellarTokens = async (account: Account) => {
         return inactiveTokens;
     } catch (error) {
         console.error('Error getting inactive tokens:', error);
+
         return [];
     }
 };

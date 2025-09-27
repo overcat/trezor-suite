@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Route } from '@suite-common/suite-types';
 import { selectCoinDefinitions, selectNftDefinitions } from '@suite-common/token-definitions';
+import { NetworkType } from '@suite-common/wallet-config';
 import { SelectedAccountLoaded } from '@suite-common/wallet-types';
 import { IconButton, IconName, InputButton, Row, SubTabs } from '@trezor/components';
 import { EventType, analytics } from '@trezor/suite-analytics';
@@ -16,7 +17,6 @@ import { selectIsDebugModeActive } from 'src/selectors/suite/suiteSelectors';
 import { GetTokensOutputType, getTokens } from 'src/utils/wallet/tokenUtils';
 
 import { TranslationKey } from '../../../components/suite/Translation';
-import { NetworkType } from '@suite-common/wallet-config';
 
 type SubTabConfig = {
     isNft: boolean;
@@ -95,7 +95,7 @@ export const TokensNavigation = ({
         tokenDefinitions,
         isNft,
     });
-    const networkType = account.networkType;
+    const {networkType} = account;
     const showAddToken = ['ethereum'].includes(networkType) && isDebug && !isNft;
 
     const handleAddToken = () => {

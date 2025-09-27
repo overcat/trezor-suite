@@ -45,10 +45,10 @@ import {
     UnhideTokenModal,
     UnstakeModal,
 } from 'src/components/suite/modals';
-import { ActivateTokenModal } from './ActivateTokenModal';
 import { useDispatch } from 'src/hooks/suite';
 import type { AcquiredDevice } from 'src/types/suite';
 
+import { ActivateTokenModal } from './ActivateTokenModal';
 import { CardanoWithdrawModal } from '../CardanoWithdrawModal';
 import type { ReduxModalProps } from '../ReduxModal';
 import { AutoStartBeforeQuitModal } from './AutoStartBeforeQuitModal';
