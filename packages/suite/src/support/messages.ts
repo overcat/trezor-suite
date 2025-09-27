@@ -4596,6 +4596,30 @@ export default defineMessages({
         id: 'TR_INACTIVE_COINS',
         defaultMessage: 'Available assets to activate',
     },
+    TR_INACTIVE_TOKENS: {
+        id: 'TR_INACTIVE_TOKENS',
+        defaultMessage: 'Inactive tokens',
+    },
+    TR_ACTIVATE: {
+        id: 'TR_ACTIVATE',
+        defaultMessage: 'Activate',
+    },
+    TR_ACTIVATE_TOKEN: {
+        id: 'TR_ACTIVATE_TOKEN',
+        defaultMessage: 'Activate {token}',
+    },
+    TR_TOKEN_ACTIVATION_DESCRIPTION: {
+        id: 'TR_TOKEN_ACTIVATION_DESCRIPTION',
+        defaultMessage: 'To receive {token} on the {network} network, you must first activate the asset. Doing so will increase your reserved balance by {reserve}.',
+    },
+    TR_TOKEN_ACTIVATION_WARNING: {
+        id: 'TR_TOKEN_ACTIVATION_WARNING',
+        defaultMessage: 'This action is irreversible. The reserve will remain locked in your account.',
+    },
+    TR_NO_INACTIVE_TOKENS_FOUND: {
+        id: 'TR_NO_INACTIVE_TOKENS_FOUND',
+        defaultMessage: 'No inactive tokens found',
+    },
     TR_COIN_SETTINGS: {
         id: 'TR_COIN_SETTINGS',
         defaultMessage: 'Coin settings',

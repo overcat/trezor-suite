@@ -118,6 +118,12 @@ export type UserContextPayload =
           type: 'add-token';
       }
     | {
+          type: 'activate-token';
+          symbol: NetworkSymbol;
+          contractAddress: string;
+          tokenSymbol: string;
+      }
+    | {
           type: 'safety-checks';
       }
     | {

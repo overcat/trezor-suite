@@ -16,23 +16,25 @@ import { selectIsDebugModeActive } from 'src/selectors/suite/suiteSelectors';
 import { GetTokensOutputType, getTokens } from 'src/utils/wallet/tokenUtils';
 
 import { TranslationKey } from '../../../components/suite/Translation';
+import { NetworkType } from '@suite-common/wallet-config';
 
 type SubTabConfig = {
     isNft: boolean;
     tokens: GetTokensOutputType;
     goToRoute: (route: Route['name']) => () => void;
+    networkType: NetworkType;
 };
 
 type SubTabItem = {
     id: string;
     iconName: IconName;
     onClick: () => void;
-    count: number;
+    count?: number;
     labelId: TranslationKey;
 };
 
-const getSubTabConfig = ({ isNft, tokens, goToRoute }: SubTabConfig) =>
-    [
+const getSubTabConfig = ({ isNft, tokens, goToRoute, networkType }: SubTabConfig) => {
+    const baseConfig = [
         {
             id: isNft ? 'wallet-nfts' : 'wallet-tokens',
             iconName: isNft ? 'pictureFrame' : 'coins',
@@ -48,6 +50,19 @@ const getSubTabConfig = ({ isNft, tokens, goToRoute }: SubTabConfig) =>
             labelId: 'TR_HIDDEN',
         },
     ] satisfies SubTabItem[];
+
+    // Add inactive tokens tab for Stellar network only
+    if (networkType === 'stellar' && !isNft) {
+        baseConfig.push({
+            id: 'wallet-tokens-inactive',
+            iconName: 'coins',
+            onClick: goToRoute('wallet-tokens-inactive'),
+            labelId: 'TR_INACTIVE_TOKENS' as any,
+        });
+    }
+
+    return baseConfig;
+};
 
 interface TokensNavigationProps {
     selectedAccount: SelectedAccountLoaded;
@@ -80,7 +95,8 @@ export const TokensNavigation = ({
         tokenDefinitions,
         isNft,
     });
-    const showAddToken = ['ethereum'].includes(account.networkType) && isDebug && !isNft;
+    const networkType = account.networkType;
+    const showAddToken = ['ethereum'].includes(networkType) && isDebug && !isNft;
 
     const handleAddToken = () => {
         if (account.symbol) {
@@ -101,10 +117,11 @@ export const TokensNavigation = ({
         setExpanded(false);
     }, [account.symbol, account.index, account.accountType, setSearchQuery]);
 
+
     return (
         <Row alignItems="center" justifyContent="space-between">
             <SubTabs activeItemId={routeName} size="medium">
-                {getSubTabConfig({ isNft, tokens, goToRoute }).map(tab => (
+                {getSubTabConfig({ isNft, tokens, goToRoute, networkType }).map(tab => (
                     <SubTabs.Item
                         key={tab.id}
                         id={tab.id}

@@ -45,6 +45,7 @@ import {
     UnhideTokenModal,
     UnstakeModal,
 } from 'src/components/suite/modals';
+import { ActivateTokenModal } from './ActivateTokenModal';
 import { useDispatch } from 'src/hooks/suite';
 import type { AcquiredDevice } from 'src/types/suite';
 
@@ -168,6 +169,8 @@ export const UserContextModal = ({ payload }: ReduxModalProps<typeof MODAL.CONTE
             return <AdvancedCoinSettingsModal {...payload} onCancel={onCancel} />;
         case 'add-token':
             return <AddTokenModal {...payload} onCancel={onCancel} />;
+        case 'activate-token':
+            return <ActivateTokenModal {...payload} onCancel={onCancel} />;
         case 'safety-checks':
             return <SafetyChecksModal onCancel={onCancel} />;
         case 'disable-tor':

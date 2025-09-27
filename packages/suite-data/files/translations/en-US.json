@@ -2520,5 +2520,11 @@
   "TR_YOU_WERE_DISCONNECTED_DOT": "You're offline. Some features will be available once you're connected again.",
   "TR_ZERO_PHISHING_BANNER": "Proceed with caution. This may be a fraudulent transaction. <a>Read more here.</a>",
   "TR_ZERO_PHISHING_TOOLTIP": "Address poisoning alert! This transaction looks suspicious. <a>Learn more.</a>",
+  "TR_INACTIVE_TOKENS": "Inactive tokens",
+  "TR_ACTIVATE": "Activate",
+  "TR_ACTIVATE_TOKEN": "Activate {token}",
+  "TR_TOKEN_ACTIVATION_DESCRIPTION": "To receive {token} on the {network} network, you must first activate the asset. Doing so will increase your reserved balance by {reserve}.",
+  "TR_TOKEN_ACTIVATION_WARNING": "This action is irreversible. The reserve will remain locked in your account.",
+  "TR_NO_INACTIVE_TOKENS_FOUND": "No inactive tokens found",
   "ZERO_BALANCE_TOKENS": "Zero-balance tokens"
 }
