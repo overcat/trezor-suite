@@ -2113,6 +2113,7 @@
   "TR_TO": "To",
   "TR_TODAY_DATE": "Today, {date}",
   "TR_TOKEN": "Token",
+  "TR_ISSUER": "Issuer",
   "TR_TOKENS": "Tokens",
   "TR_TOKENS_EMPTY": "No tokens",
   "TR_TOKENS_EMPTY_CHECK_HIDDEN": "No tokens. Check hidden.",

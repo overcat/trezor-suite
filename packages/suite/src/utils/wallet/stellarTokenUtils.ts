@@ -34,32 +34,6 @@ export const getStellarTokens = async (): Promise<TokenDetailByMint> => {
     }
 };
 
-/**
- * 计算用户账户中未激活的 Stellar tokens 数量
- */
-export const getInactiveStellarTokensCount = async (account: Account): Promise<number> => {
-    if (account.symbol !== 'xlm') return 0;
-
-    try {
-        const allTokens = await getStellarTokens();
-
-        // 获取用户当前已激活的 token contract addresses
-        const activeTokenContracts = new Set(
-            account.tokens?.map(token => token.contract) || []
-        );
-
-        // 计算有多少个可用 tokens 用户还没有激活
-        const inactiveCount = Object.keys(allTokens).filter(
-            contractAddress => !activeTokenContracts.has(contractAddress)
-        ).length;
-
-        return inactiveCount;
-    } catch (error) {
-        console.error('Error calculating inactive tokens count:', error);
-
-        return 0;
-    }
-};
 
 /**
  * 获取用户账户中未激活的 Stellar tokens 列表

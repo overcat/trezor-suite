@@ -9,7 +9,8 @@ import {
     Column,
     Row,
     Table,
-    Text
+    Text,
+    Tooltip
 } from '@trezor/components';
 import { spacings } from '@trezor/theme';
 
@@ -122,7 +123,7 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
                         <Translation id="TR_TOKEN" />
                     </Table.Cell>
                     <Table.Cell>
-                        Issuer
+                        <Translation id="TR_ISSUER" />
                     </Table.Cell>
                     <Table.Cell align="end">
                         Action
@@ -141,22 +142,26 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
                                     size={24}
                                     shouldTryToFetch={true}
                                 />
-                                <Column alignItems="flex-start">
+                                <Row gap={spacings.xs}>
                                     <Text typographyStyle="body">{token.name}</Text>
-                                    <Text variant="tertiary" typographyStyle="hint">
-                                        {token.symbol}
-                                    </Text>
-                                </Column>
+                                    <Text typographyStyle="body" variant="tertiary">{token.symbol}</Text>
+                                </Row>
                             </Row>
                         </Table.Cell>
                         <Table.Cell>
-                            <Text variant="tertiary" typographyStyle="hint">
-                                {token.issuer || '—'}
-                            </Text>
+                            <Tooltip content={token.issuer || 'Unknown issuer'}>
+                                <Text
+                                    variant="tertiary"
+                                    typographyStyle="hint"
+                                >
+                                    example.com
+                                </Text>
+                            </Tooltip>
                         </Table.Cell>
                         <Table.Cell align="end">
                             <Button
                                 size="small"
+                                variant="tertiary"
                                 onClick={() => handleActivateToken(token)}
                                 data-testid={`@token/activate-${token.symbol}`}
                             >

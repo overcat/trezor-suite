@@ -30,7 +30,7 @@ interface BaseSocksProxyAgentOptions {
 
 // todo: connect10 here we are using the old `SocksProxyAgentOptions` from older version of socks-proxy-agent
 // but we keep the old API so we do not introduce breaking changes.
-interface SocksProxyAgentOptions extends AgentOptions, BaseSocksProxyAgentOptions {}
+interface SocksProxyAgentOptions extends AgentOptions, BaseSocksProxyAgentOptions { }
 
 export interface BlockchainSettings {
     name: string;
@@ -256,6 +256,7 @@ export interface AccountInfo {
         sequence?: number;
         // Stellar
         stellarSequence?: string;
+        inactiveTokens?: TokenInfo[]; // list of tokens available on the network but not activated in the account
         reserve?: string;
         // blockfrost
         rewards?: string;

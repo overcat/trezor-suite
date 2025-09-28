@@ -5674,6 +5674,10 @@ export default defineMessages({
         id: 'TR_TOKEN',
         defaultMessage: 'Token',
     },
+    TR_ISSUER: {
+        id: 'TR_ISSUER',
+        defaultMessage: 'Issuer',
+    },
     TR_TOKENS: {
         id: 'TR_TOKENS',
         defaultMessage: 'Tokens',
