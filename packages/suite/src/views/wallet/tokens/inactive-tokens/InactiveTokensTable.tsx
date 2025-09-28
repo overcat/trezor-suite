@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { SelectedAccountLoaded } from '@suite-common/wallet-types';
 import { getCoingeckoId } from '@suite-common/wallet-config';
+import { SelectedAccountLoaded } from '@suite-common/wallet-types';
 import { getContractAddressForNetworkSymbol } from '@suite-common/wallet-utils';
 import {
     AssetLogo,
