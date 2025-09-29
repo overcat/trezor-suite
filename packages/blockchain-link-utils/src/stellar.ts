@@ -245,6 +245,53 @@ export const buildSendTransaction = (
     return txBuilder.build();
 };
 
+export const buildAddTrustlineTransaction = (
+    descriptor: string,
+    sequence: string,
+    fee: string,
+    asset: StellarAsset,
+    isTestnet = false,
+) => {
+    const source = new Account(descriptor, sequence);
+
+    const txBuilder = new TransactionBuilder(source, {
+        fee,
+        networkPassphrase: isTestnet ? Networks.TESTNET : Networks.PUBLIC,
+    }).setTimebounds(0, 0);
+
+    txBuilder.addOperation(
+        Operation.changeTrust({
+            asset: new Asset(asset.code!, asset.issuer),
+        }),
+    );
+
+    return txBuilder.build();
+};
+
+export const buildRemoveTrustlineTransaction = (
+    descriptor: string,
+    sequence: string,
+    fee: string,
+    asset: StellarAsset,
+    isTestnet = false,
+) => {
+    const source = new Account(descriptor, sequence);
+
+    const txBuilder = new TransactionBuilder(source, {
+        fee,
+        networkPassphrase: isTestnet ? Networks.TESTNET : Networks.PUBLIC,
+    }).setTimebounds(0, 0);
+
+    txBuilder.addOperation(
+        Operation.changeTrust({
+            asset: new Asset(asset.code!, asset.issuer),
+            limit: '0',
+        }),
+    );
+
+    return txBuilder.build();
+};
+
 export const getTokenMetadata = async (): Promise<TokenDetailByMint> => {
     const env = isCodesignBuild() ? 'stable' : 'develop';
 
