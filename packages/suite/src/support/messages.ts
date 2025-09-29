@@ -4612,10 +4612,6 @@ export default defineMessages({
         id: 'TR_TOKEN_ACTIVATION_DESCRIPTION',
         defaultMessage: 'To receive {token} on the {network} network, you must first activate the asset. Doing so will increase your reserved balance by {reserve}.',
     },
-    TR_TOKEN_ACTIVATION_WARNING: {
-        id: 'TR_TOKEN_ACTIVATION_WARNING',
-        defaultMessage: 'This action is irreversible. The reserve will remain locked in your account.',
-    },
     TR_INACTIVE_TOKENS_EMPTY: {
         id: 'TR_INACTIVE_TOKENS_EMPTY',
         defaultMessage: 'No inactive tokens',

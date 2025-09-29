@@ -97,7 +97,6 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
                 allInactiveTokens.filter(
                     token =>
                         token.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        token.symbol?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         token.contract.toLowerCase().includes(searchQuery.toLowerCase())
                 )
             );
@@ -112,7 +111,7 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
                 type: 'activate-token',
                 symbol: account.symbol,
                 contractAddress: token.contract,
-                tokenSymbol: token.symbol || '',
+                tokenSymbol: token.symbol!,
             })
         );
     };

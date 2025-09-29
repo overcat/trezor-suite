@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { NetworkSymbol } from '@suite-common/wallet-config';
+import { FormState, selectRawNetworkFeeInfo } from '@suite-common/wallet-core';
+import { getConvertedOrDefaultFeeInfo } from '@suite-common/wallet-utils';
 import { Button, Column, Modal, Row, Text } from '@trezor/components';
 import { spacings } from '@trezor/theme';
 
 import { Translation } from 'src/components/suite';
 import { ConfirmActionModal } from 'src/components/suite/modals/ReduxModal/DeviceContextModal/ConfirmActionModal';
+import { Fees } from 'src/components/wallet/Fees/Fees';
 import { useDevice, useSelector } from 'src/hooks/suite';
 import { selectSelectedAccount } from 'src/reducers/wallet/selectedAccountReducer';
 
@@ -27,6 +31,32 @@ export const ActivateTokenModal = ({
 
     const account = useSelector(selectSelectedAccount);
     const { device } = useDevice();
+    const rawFeeInfo = useSelector(state => selectRawNetworkFeeInfo(state, symbol));
+
+    const feeInfo = getConvertedOrDefaultFeeInfo({
+        networkType: account?.networkType || 'stellar',
+        feeInfo: rawFeeInfo,
+    });
+
+    const form = useForm<FormState>({
+        mode: 'onChange',
+        defaultValues: {
+            selectedFee: 'normal',
+        },
+    });
+
+    const {
+        register,
+        control,
+        getValues,
+        setValue,
+        formState: { errors, isDirty },
+        trigger,
+    } = form;
+
+    const changeFeeLevel = (level: FormState['selectedFee']) => {
+        setValue('selectedFee', level);
+    };
 
     const handleActivate = async () => {
         if (!account || !device) return;
@@ -37,9 +67,15 @@ export const ActivateTokenModal = ({
         setShowDeviceConfirmation(true);
 
         try {
+            const selectedFee = getValues('selectedFee');
             // Here you would implement the actual token activation logic
             // This would involve creating a transaction to activate the token on Stellar
-            console.log('Activating token:', { symbol, contractAddress, tokenSymbol });
+            console.log('Activating token:', {
+                symbol,
+                contractAddress,
+                tokenSymbol,
+                selectedFee
+            });
 
             // Simulate the Trezor transaction process
             await new Promise(resolve => setTimeout(resolve, 3000));
@@ -101,11 +137,20 @@ export const ActivateTokenModal = ({
                     />
                 </Text>
 
-                <Column gap={spacings.sm}>
-                    <Text typographyStyle="hint" variant="tertiary">
-                        <Translation id="TR_TOKEN_ACTIVATION_WARNING" />
-                    </Text>
-                </Column>
+                {account && feeInfo && (
+                    <Fees
+                        account={account}
+                        feeInfo={feeInfo}
+                        register={register}
+                        control={control}
+                        setValue={setValue}
+                        getValues={getValues}
+                        errors={errors}
+                        isDirty={isDirty}
+                        trigger={trigger}
+                        changeFeeLevel={changeFeeLevel}
+                    />
+                )}
             </Column>
         </Modal>
     );
