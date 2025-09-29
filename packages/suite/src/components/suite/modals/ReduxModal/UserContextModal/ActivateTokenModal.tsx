@@ -5,7 +5,8 @@ import { Button, Column, Modal, Row, Text } from '@trezor/components';
 import { spacings } from '@trezor/theme';
 
 import { Translation } from 'src/components/suite';
-import { useSelector } from 'src/hooks/suite';
+import { ConfirmActionModal } from 'src/components/suite/modals/ReduxModal/DeviceContextModal/ConfirmActionModal';
+import { useDevice, useSelector } from 'src/hooks/suite';
 import { selectSelectedAccount } from 'src/reducers/wallet/selectedAccountReducer';
 
 type ActivateTokenModalProps = {
@@ -22,20 +23,26 @@ export const ActivateTokenModal = ({
     onCancel,
 }: ActivateTokenModalProps) => {
     const [isActivating, setIsActivating] = useState(false);
+    const [showDeviceConfirmation, setShowDeviceConfirmation] = useState(false);
 
     const account = useSelector(selectSelectedAccount);
+    const { device } = useDevice();
 
     const handleActivate = async () => {
-        if (!account) return;
+        if (!account || !device) return;
 
         setIsActivating(true);
+
+        // Show device confirmation modal
+        setShowDeviceConfirmation(true);
+
         try {
             // Here you would implement the actual token activation logic
             // This would involve creating a transaction to activate the token on Stellar
             console.log('Activating token:', { symbol, contractAddress, tokenSymbol });
 
-            // For now, just simulate the activation
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Simulate the Trezor transaction process
+            await new Promise(resolve => setTimeout(resolve, 3000));
 
             // Close modal after successful activation
             onCancel();
@@ -43,8 +50,25 @@ export const ActivateTokenModal = ({
             console.error('Failed to activate token:', error);
         } finally {
             setIsActivating(false);
+            setShowDeviceConfirmation(false);
         }
     };
+
+    const handleDeviceCancel = () => {
+        setShowDeviceConfirmation(false);
+        setIsActivating(false);
+    };
+
+    // Show device confirmation modal if in confirmation state
+    if (showDeviceConfirmation && device) {
+        return (
+            <ConfirmActionModal
+                device={device}
+                title="TR_CONFIRM_ACTION_ON_YOUR"
+                onCancel={handleDeviceCancel}
+            />
+        );
+    }
 
     return (
         <Modal
@@ -58,7 +82,7 @@ export const ActivateTokenModal = ({
                     <Button
                         onClick={handleActivate}
                         isLoading={isActivating}
-                        isDisabled={!account}
+                        isDisabled={!account || !device}
                     >
                         <Translation id="TR_CONTINUE" />
                     </Button>
