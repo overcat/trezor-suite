@@ -12,7 +12,7 @@ import {
     Tooltip
 } from '@trezor/components';
 import { spacings } from '@trezor/theme';
-import { getTokenMetadata } from '@trezor/blockchain-link-utils/src/stellar';
+import { getTokenMetadata, STELLAR_DECIMALS } from '@trezor/blockchain-link-utils/src/stellar';
 
 import { openModal } from 'src/actions/suite/modalActions';
 import { Loading, Translation } from 'src/components/suite';
@@ -20,24 +20,16 @@ import { useDispatch } from 'src/hooks/suite';
 
 import { NoTokens } from '../common/NoTokens';
 import { NoSearchResultsWrapped } from '../common/TokensTable/TokensTable';
-
-type InactiveToken = {
-    contract: string;
-    symbol: string;
-    name: string;
-    issuer?: string;
-    decimals: number;
-};
-
+import type { TokenDetailByMint, TokenInfo } from '@trezor/blockchain-link-types';
 
 /**
  * 获取用户账户中未激活的 Stellar tokens 列表
  */
-const getInactiveStellarTokens = async (account: Account): Promise<InactiveToken[]> => {
+const getInactiveStellarTokens = async (account: Account): Promise<TokenInfo[]> => {
     if (account.symbol !== 'xlm') return [];
 
     try {
-        const allTokens = await getTokenMetadata();
+        const allTokens: TokenDetailByMint = await getTokenMetadata();
 
         // 获取用户当前已激活的 token contract addresses
         const activeTokenContracts = new Set(
@@ -47,12 +39,13 @@ const getInactiveStellarTokens = async (account: Account): Promise<InactiveToken
         // 返回用户还没有激活的 tokens
         const inactiveTokens = Object.entries(allTokens)
             .filter(([contractAddress]) => !activeTokenContracts.has(contractAddress))
-            .map(([contractAddress, tokenData]) => ({
-                contract: contractAddress,
-                symbol: tokenData.symbol || '',
-                name: tokenData.name || '',
-                issuer: (tokenData as any).issuer || '',
-                decimals: (tokenData as any).decimals || 7,
+            .map(([contract]) => ({
+                type: 'STELLAR-CLASSIC',
+                standard: 'STELLAR-CLASSIC',
+                contract,
+                name: allTokens[contract]?.name,
+                symbol: contract.split('-')[0],
+                decimals: STELLAR_DECIMALS,
             }));
 
         return inactiveTokens;
@@ -73,8 +66,8 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
     const dispatch = useDispatch();
     const { account } = selectedAccount;
     const coingeckoId = getCoingeckoId(account.symbol);
-    const [allInactiveTokens, setAllInactiveTokens] = useState<InactiveToken[]>([]);
-    const [filteredTokens, setFilteredTokens] = useState<InactiveToken[]>([]);
+    const [allInactiveTokens, setAllInactiveTokens] = useState<TokenInfo[]>([]);
+    const [filteredTokens, setFilteredTokens] = useState<TokenInfo[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     // 获取未激活的 tokens
@@ -103,8 +96,9 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
             setFilteredTokens(
                 allInactiveTokens.filter(
                     token =>
-                        token.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        token.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+                        token.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        token.symbol?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        token.contract.toLowerCase().includes(searchQuery.toLowerCase())
                 )
             );
         } else {
@@ -112,13 +106,13 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
         }
     }, [searchQuery, allInactiveTokens]);
 
-    const handleActivateToken = (token: InactiveToken) => {
+    const handleActivateToken = (token: TokenInfo) => {
         dispatch(
             openModal({
                 type: 'activate-token',
                 symbol: account.symbol,
                 contractAddress: token.contract,
-                tokenSymbol: token.symbol,
+                tokenSymbol: token.symbol || '',
             })
         );
     };
@@ -182,7 +176,7 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
                             </Row>
                         </Table.Cell>
                         <Table.Cell>
-                            <Tooltip content={token.issuer || 'Unknown issuer'}>
+                            <Tooltip content={token.contract.split('-')[1] || 'Unknown issuer'}>
                                 <Text
                                     variant="tertiary"
                                     typographyStyle="hint"
