@@ -1,23 +1,25 @@
 import { useEffect, useState } from 'react';
 
 import { getCoingeckoId } from '@suite-common/wallet-config';
-import { SelectedAccountLoaded } from '@suite-common/wallet-types';
+import { Account, SelectedAccountLoaded } from '@suite-common/wallet-types';
 import { getContractAddressForNetworkSymbol } from '@suite-common/wallet-utils';
 import {
     AssetLogo,
     Button,
     Column,
+    LoadingContent,
     Row,
     Table,
     Text,
     Tooltip
 } from '@trezor/components';
 import { spacings } from '@trezor/theme';
+import type { TokenDetailByMint } from '@trezor/blockchain-link-types';
+import { getTokenMetadata } from '@trezor/blockchain-link-utils/src/stellar';
 
 import { openModal } from 'src/actions/suite/modalActions';
 import { Translation } from 'src/components/suite';
 import { useDispatch } from 'src/hooks/suite';
-import { getInactiveStellarTokens } from 'src/utils/wallet/stellarTokenUtils';
 
 import { NoTokens } from '../common/NoTokens';
 import { NoSearchResultsWrapped } from '../common/TokensTable/TokensTable';
@@ -28,6 +30,40 @@ type InactiveToken = {
     name: string;
     issuer?: string;
     decimals: number;
+};
+
+
+/**
+ * 获取用户账户中未激活的 Stellar tokens 列表
+ */
+const getInactiveStellarTokens = async (account: Account): Promise<InactiveToken[]> => {
+    if (account.symbol !== 'xlm') return [];
+
+    try {
+        const allTokens = await getTokenMetadata();
+
+        // 获取用户当前已激活的 token contract addresses
+        const activeTokenContracts = new Set(
+            account.tokens?.map(token => token.contract) || []
+        );
+
+        // 返回用户还没有激活的 tokens
+        const inactiveTokens = Object.entries(allTokens)
+            .filter(([contractAddress]) => !activeTokenContracts.has(contractAddress))
+            .map(([contractAddress, tokenData]) => ({
+                contract: contractAddress,
+                symbol: tokenData.symbol || '',
+                name: tokenData.name || '',
+                issuer: (tokenData as any).issuer || '',
+                decimals: (tokenData as any).decimals || 7,
+            }));
+
+        return inactiveTokens;
+    } catch (error) {
+        console.error('Error getting inactive tokens:', error);
+
+        return [];
+    }
 };
 
 interface InactiveTokensTableProps {
@@ -92,11 +128,15 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
 
     // Only show for Stellar network
     if (account.symbol !== 'xlm') {
-        return <NoTokens title={<Translation id="TR_NO_INACTIVE_TOKENS_FOUND" />} />;
+        return <NoTokens title={<Translation id="TR_INACTIVE_TOKENS_EMPTY" />} />;
     }
 
     if (isLoading) {
-        return <NoTokens title={<Translation id="TR_LOADING" />} />;
+        return (
+            <LoadingContent isLoading={true}>
+                <div /> {/* 空内容，只显示加载动画 */}
+            </LoadingContent>
+        );
     }
 
     if (filteredTokens.length === 0 && searchQuery) {
@@ -104,7 +144,7 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
     }
 
     if (filteredTokens.length === 0) {
-        return <NoTokens title={<Translation id="TR_NO_INACTIVE_TOKENS_FOUND" />} />;
+        return <NoTokens title={<Translation id="TR_INACTIVE_TOKENS_EMPTY" />} />;
     }
 
     return (

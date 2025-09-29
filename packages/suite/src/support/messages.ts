@@ -4616,9 +4616,9 @@ export default defineMessages({
         id: 'TR_TOKEN_ACTIVATION_WARNING',
         defaultMessage: 'This action is irreversible. The reserve will remain locked in your account.',
     },
-    TR_NO_INACTIVE_TOKENS_FOUND: {
-        id: 'TR_NO_INACTIVE_TOKENS_FOUND',
-        defaultMessage: 'No inactive tokens found',
+    TR_INACTIVE_TOKENS_EMPTY: {
+        id: 'TR_INACTIVE_TOKENS_EMPTY',
+        defaultMessage: 'No inactive tokens',
     },
     TR_COIN_SETTINGS: {
         id: 'TR_COIN_SETTINGS',
