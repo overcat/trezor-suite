@@ -6,19 +6,16 @@ import { getContractAddressForNetworkSymbol } from '@suite-common/wallet-utils';
 import {
     AssetLogo,
     Button,
-    Column,
-    LoadingContent,
     Row,
     Table,
     Text,
     Tooltip
 } from '@trezor/components';
 import { spacings } from '@trezor/theme';
-import type { TokenDetailByMint } from '@trezor/blockchain-link-types';
 import { getTokenMetadata } from '@trezor/blockchain-link-utils/src/stellar';
 
 import { openModal } from 'src/actions/suite/modalActions';
-import { Translation } from 'src/components/suite';
+import { Loading, Translation } from 'src/components/suite';
 import { useDispatch } from 'src/hooks/suite';
 
 import { NoTokens } from '../common/NoTokens';
@@ -132,11 +129,7 @@ export const InactiveTokensTable = ({ selectedAccount, searchQuery }: InactiveTo
     }
 
     if (isLoading) {
-        return (
-            <LoadingContent isLoading={true}>
-                <div /> {/* 空内容，只显示加载动画 */}
-            </LoadingContent>
-        );
+        return <Loading />;
     }
 
     if (filteredTokens.length === 0 && searchQuery) {
