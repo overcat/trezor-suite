@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { NetworkSymbol } from '@suite-common/wallet-config';
-import { FormState, selectRawNetworkFeeInfo } from '@suite-common/wallet-core';
+import { selectRawNetworkFeeInfo } from '@suite-common/wallet-core';
 import { getConvertedOrDefaultFeeInfo } from '@suite-common/wallet-utils';
 import { Button, Column, Modal, Row, Text } from '@trezor/components';
 import { spacings } from '@trezor/theme';
 
+import { activateTokenThunk } from 'src/actions/wallet/token';
 import { Translation } from 'src/components/suite';
 import { ConfirmActionModal } from 'src/components/suite/modals/ReduxModal/DeviceContextModal/ConfirmActionModal';
 import { Fees } from 'src/components/wallet/Fees/Fees';
-import { useDevice, useSelector } from 'src/hooks/suite';
+import { useDevice, useDispatch, useSelector } from 'src/hooks/suite';
 import { selectSelectedAccount } from 'src/reducers/wallet/selectedAccountReducer';
 
 type ActivateTokenModalProps = {
@@ -29,6 +30,7 @@ export const ActivateTokenModal = ({
     const [isActivating, setIsActivating] = useState(false);
     const [showDeviceConfirmation, setShowDeviceConfirmation] = useState(false);
 
+    const dispatch = useDispatch();
     const account = useSelector(selectSelectedAccount);
     const { device } = useDevice();
     const rawFeeInfo = useSelector(state => selectRawNetworkFeeInfo(state, symbol));
@@ -59,29 +61,28 @@ export const ActivateTokenModal = ({
     };
 
     const handleActivate = async () => {
-        if (!account || !device) return;
+        if (!account) return;
 
         setIsActivating(true);
-
-        // Show device confirmation modal
         setShowDeviceConfirmation(true);
 
         try {
             const selectedFee = getValues('selectedFee');
-            // Here you would implement the actual token activation logic
-            // This would involve creating a transaction to activate the token on Stellar
-            console.log('Activating token:', {
-                symbol,
+
+            const result = await dispatch(activateTokenThunk({
+                account,
                 contractAddress,
                 tokenSymbol,
-                selectedFee
-            });
+                selectedFee,
+            }));
 
-            // Simulate the Trezor transaction process
-            await new Promise(resolve => setTimeout(resolve, 3000));
-
-            // Close modal after successful activation
-            onCancel();
+            if (activateTokenThunk.fulfilled.match(result)) {
+                console.log('Token activated successfully:', result.payload.serializedTx);
+                onCancel(); // Close modal after successful activation
+            } else {
+                const error = result.payload?.error || 'Unknown error';
+                console.error('Failed to activate token:', error);
+            }
         } catch (error) {
             console.error('Failed to activate token:', error);
         } finally {
